@@ -21,7 +21,7 @@ class DistrictRepo
   end
 
   def find_by_name(string)
-    @districts.find { |object| object.name == string.upcase }
+    @districts.find { |object| object.name == string.to_s.upcase }
   end
 
   def find_all_matching(string)

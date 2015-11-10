@@ -9,14 +9,12 @@ class EnrollmentRepoTest < Minitest::Test
 
   def test_can_instatiate_district_repo
     er = EnrollmentRepo.new
-
     assert er
   end
 
   def test_can_load_data_from_given_file
     er = EnrollmentRepo.new
     er.load_data({:enrollment => {:kindergarten => "./test/fixtures/sample_kindergarten_data.csv"}})
-    binding.pry
     assert_equal "COLORADO", er.enrollment[0].district
     assert_equal "HI-PLAINS R-23", er.enrollment[4].district
   end

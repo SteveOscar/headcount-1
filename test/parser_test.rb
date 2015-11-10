@@ -38,12 +38,17 @@ class ParserTest < Minitest::Test
     assert_equal 8, districts.length
   end
 
+  def test_get_enrollment_creates_a_hash
+    parser.load_data('./test/fixtures/sample_kindergarten_data.csv')
+    enrollment = parser.get_enrollment
+    assert_equal "Hash", enrollment.class.to_s
+  end
 
-
-
-
-
-
-
+  def test_get_enrollment_creates_a_hash_and_updates_already_existing_district
+    parser.load_data('./test/fixtures/sample_kindergarten_data.csv')
+    enrollment = parser.get_enrollment
+    answer = {"2010"=>"1", "2011"=>"1"}
+    assert_equal answer, enrollment["ADAMS COUNTY 14"]
+  end
 
 end

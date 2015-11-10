@@ -9,7 +9,7 @@ class CSVParser
   end
 
   def get_districts
-    districts = @csv_data.readlines.map { |line| line[0] }
+    districts = @csv_data.readlines.map { |line| line[0].upcase }
     districts.uniq!
   end
 

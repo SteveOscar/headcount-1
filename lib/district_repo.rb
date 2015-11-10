@@ -19,4 +19,13 @@ class DistrictRepo
     end
     @districts
   end
+
+  def find_by_name(string)
+    @districts.find { |object| object.name == string.upcase }
+  end
+
+  def find_all_matching(string)
+    @districts.find_all { |object| object.name.include?(string.upcase) }
+  end
+
 end

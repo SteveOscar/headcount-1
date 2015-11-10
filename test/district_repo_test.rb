@@ -25,6 +25,36 @@ class DistrictRepoTest < Minitest::Test
     assert_equal 8, dr.districts.length
   end
 
+  def test_find_by_name_finds_object
+    dr = DistrictRepo.new
+    dr.load_data({:enrollment => {:kindergarten => "./test/fixtures/sample_kindergarten_data.csv"}})
+    object = dr.find_by_name("ACADEMY 20")
+    assert_equal "ACADEMY 20", object.name
+  end
+
+
+  def test_find_by_lowercase_name_finds_object
+    dr = DistrictRepo.new
+    dr.load_data({:enrollment => {:kindergarten => "./test/fixtures/sample_kindergarten_data.csv"}})
+    object = dr.find_by_name("academy 20")
+    assert_equal "ACADEMY 20", object.name
+  end
+
+  def test_find_by_name_returns_nil_if_no_object_matches
+    dr = DistrictRepo.new
+    dr.load_data({:enrollment => {:kindergarten => "./test/fixtures/sample_kindergarten_data.csv"}})
+    object = dr.find_by_name("Steve Oscar Olson")
+    assert_equal nil, object
+  end
+
+  def test_find_all_matching_names_finds_objects
+    dr = DistrictRepo.new
+    dr.load_data({:enrollment => {:kindergarten => "./test/fixtures/sample_kindergarten_data.csv"}})
+    object = dr.find_all_matching("ADAMS COUNTY")
+    binding.pry
+    assert_equal "ADAMS COUNTY 14", object[0].name
+    assert_equal "ADAMS COUNTY 15", object[1].name
+  end
 
 
 

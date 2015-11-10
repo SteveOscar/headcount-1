@@ -1,11 +1,11 @@
 require 'pry'
 
 class Enrollment
-  attr_reader :name, :enrollment_data
+  attr_reader :district, :enrollment_data
 
-  def initialize(name)
-    @name = name.values[0]
-    @enrollment_data = name.values[1]
+  def initialize(data)
+    @district = data.values[0]
+    @enrollment_data = data.values[1]
   end
 
   def kindergarten_participation_by_year

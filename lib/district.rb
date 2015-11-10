@@ -1,10 +1,10 @@
 require 'pry'
 
 class District
-  attr_reader :name
+  attr_reader :district
 
-  def initialize(name)
-    @name = name.values.join
+  def initialize(district)
+    @district = district.values.join
   end
 
 end

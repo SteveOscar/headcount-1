@@ -14,18 +14,18 @@ class DistrictRepo
   end
 
   def create_district_objects(array)
-    @districts = array.map do |name|
-      District.new({name: name})
+    @districts = array.map do |district|
+      District.new({district: district})
     end
     @districts
   end
 
   def find_by_name(string)
-    @districts.find { |object| object.name == string.to_s.upcase }
+    @districts.find { |object| object.district == string.to_s.upcase }
   end
 
   def find_all_matching(string)
-    @districts.find_all { |object| object.name.include?(string.upcase) }
+    @districts.find_all { |object| object.district.include?(string.upcase) }
   end
 
 end

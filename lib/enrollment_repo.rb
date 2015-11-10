@@ -10,22 +10,22 @@ class EnrollmentRepo
     path = given_data[:enrollment][:kindergarten]
     c = CSVParser.new
     c.load_data(path)
-    create_enrollment_objects(c.get_districts)
+    create_enrollment_objects(c.get_enrollment)
   end
 
-  def create_enrollment_objects(array)
-    @enrollment = @districts = array.map do |name|
-      Enrollment.new({name: name})
+  def create_enrollment_objects(hash)
+    @enrollment = hash.map do |district, enrollment|
+      Enrollment.new({district: district, kindergarten_participation: enrollment})
     end
     @enrollment
   end
 
   def find_by_name(string)
-    @enrollment.find { |object| object.name == string.to_s.upcase }
+    @enrollment.find { |object| object.district == string.to_s.upcase }
   end
 
   def find_all_matching(string)
-    @enrollment.find_all { |object| object.name.include?(string.upcase) }
+    @enrollment.find_all { |object| object.district.include?(string.upcase) }
   end
 
 end

@@ -4,6 +4,8 @@ require_relative 'csv_parser_0'
 
 class DistrictRepo
 
+  attr_accessor :districts
+
   def load_data(given_data)
     path = given_data[:enrollment][:kindergarten]
     c = CSVParser.new
@@ -12,11 +14,9 @@ class DistrictRepo
   end
 
   def create_district_objects(array)
-    districts = []
-    array.each do |name|
-      districts << District.new({name: name})
+    @districts = array.map do |name|
+      District.new({name: name})
     end
-    districtsq
-    binding.pry
+    @districts
   end
 end

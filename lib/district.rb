@@ -1,6 +1,7 @@
 require 'pry'
 
 class District
+  attr_accessor :enrollment
   attr_reader :district
 
   def initialize(district)

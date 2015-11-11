@@ -77,9 +77,21 @@ class DistrictRepoTest < Minitest::Test
     assert_equal "ADAMS COUNTY 15", object[1].district
   end
 
+  def test_can_link_district_objects_to_newly_created_enrollment_objects
+    dr = DistrictRepo.new
+    dr.load_data({:enrollment => {:kindergarten => "./test/fixtures/sample_kindergarten_data.csv"}})
+    district = dr.find_by_name("ACADEMY 20")
+    assert_equal "ACADEMY 20", district.enrollment.district
+  end
 
+  def test_can_handle_full_dataset_and_create_necessary_objects
+    dr = DistrictRepo.new
+    dr.load_data({:enrollment => {:kindergarten => "./data/kindergartners in full-day program.csv"}})
+    district = dr.find_by_name("ACADEMY 20")
+    assert_equal "ACADEMY 20", district.enrollment.district
 
-
-
-
+    answer = {"2007"=>"0.39465", "2006"=>"0.33677", "2005"=>"0.27807", "2004"=>"0.24014", "2008"=>"0.5357", "2009"=>"0.598", "2010"=>"0.64019", "2011"=>"0.672", "2012"=>"0.695", "2013"=>"0.70263", "2014"=>"0.74118"}
+    district = dr.find_by_name("COLORADO")
+    assert_equal answer, district.enrollment.enrollment_data
+  end
 end

@@ -17,15 +17,15 @@ class EnrollmentRepo
     @enrollment = hash.map do |district, enrollment|
       Enrollment.new({district: district, kindergarten_participation: enrollment})
     end
-    @enrollment
+    enrollment
   end
 
   def find_by_name(string)
-    @enrollment.find { |object| object.district == string.to_s.upcase }
+    enrollment.find { |object| object.district == string.to_s.upcase }
   end
 
   def find_all_matching(string)
-    @enrollment.find_all { |object| object.district.include?(string.upcase) }
+    enrollment.find_all { |object| object.district.include?(string.upcase) }
   end
 
 end

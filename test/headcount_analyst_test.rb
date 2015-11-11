@@ -19,17 +19,31 @@ class HeadcountAnalystTest < Minitest::Test
 
   def test_kindergarten_participation_rate_variation_exists
     dr = DistrictRepo.new
+    dr.load_data({:enrollment => {:kindergarten => "./test/fixtures/sample_kindergarten_data_expanded.csv"}})
     ha = HeadcountAnalyst.new(dr)
-
     assert ha.kindergarten_participation_rate_variation('ACADEMY 20', :against => 'COLORADO')
   end
 
-  def test_kindergarten_participation_rate_variation_returns_correct_percentage_data
+  def test_kindergarten_participation_rate_variation_against_state_returns_correct_percentage_data
     dr = DistrictRepo.new
     dr.load_data({:enrollment => {:kindergarten => "./test/fixtures/sample_kindergarten_data_expanded.csv"}})
     ha = HeadcountAnalyst.new(dr)
-
     assert_equal 0.766, ha.kindergarten_participation_rate_variation('ACADEMY 20', :against => 'COLORADO')
   end
+
+  def test_kindergarten_participation_rate_variation_against_county_returns_correct_percentage_data
+    dr = DistrictRepo.new
+    dr.load_data({:enrollment => {:kindergarten => "./test/fixtures/sample_kindergarten_data_expanded.csv"}})
+    ha = HeadcountAnalyst.new(dr)
+    assert_equal 0.573, ha.kindergarten_participation_rate_variation('ACADEMY 20', :against => 'ADAMS COUNTY 14')
+  end
+
+  def test_kindergarten_participation_rate_variation_trend_exists
+    dr = DistrictRepo.new
+    dr.load_data({:enrollment => {:kindergarten => "./test/fixtures/sample_kindergarten_data_expanded.csv"}})
+    ha = HeadcountAnalyst.new(dr)
+    assert ha.kindergarten_participation_rate_variation_trend('ACADEMY 20', :against => 'COLORADO')
+  end
+
 
 end

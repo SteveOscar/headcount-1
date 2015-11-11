@@ -17,7 +17,6 @@ class EnrollmentRepo
       if @enrollment.nil?
         create_enrollment_objects(grade, c.get_enrollment)
       else
-        binding.pry
         append_data_onto_enrollment_object(grade, c.get_enrollment)
       end
     end
@@ -32,9 +31,10 @@ class EnrollmentRepo
   end
 
   def append_data_onto_enrollment_object(grade, hash)
+    @enrollment.each do |object|
+      object.enrollment_data.merge!({ grade => hash.select { |k,v| k == object.district }})
+    end
     binding.pry
-    object = find_by_name()
-
   end
 
   def find_by_name(string)

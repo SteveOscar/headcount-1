@@ -20,8 +20,8 @@ class DistrictRepo
   end
 
   def link_district_to_enrollment
-    @districts.each do |object|
-      object.enrollment = @er.find_by_name(object.district)
+    districts.each do |object|
+      object.enrollment = er.find_by_name(object.district)
     end
   end
 
@@ -30,15 +30,15 @@ class DistrictRepo
     @districts = array.map do |district|
       District.new({district: district})
     end
-    @districts
+    districts
   end
 
   def find_by_name(string)
-    @districts.find { |object| object.district == string.to_s.upcase }
+    districts.find { |object| object.district == string.to_s.upcase }
   end
 
   def find_all_matching(string)
-    @districts.find_all { |object| object.district.include?(string.upcase) }
+    districts.find_all { |object| object.district.include?(string.upcase) }
   end
 
 end

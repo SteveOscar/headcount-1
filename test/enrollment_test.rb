@@ -39,6 +39,4 @@ class EnrollmentTest < Minitest::Test
     assert_equal 0.354, result
   end
 
-
-
 end

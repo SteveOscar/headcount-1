@@ -7,17 +7,17 @@ class EnrollmentRepo
   attr_reader :parser
 
   def initialize
-    @parser = CSVParser.new #renamed parser instance from 'c'
+    @parser = CSVParser.new
   end
 
   def load_data(given_data)
-    given_data[:enrollment].each do |grade, percentages_data| # removed path variable assignment
+    given_data[:enrollment].each do |grade, percentages_data|
       parser.load_data(percentages_data)
       check_for_existing_objects(grade)
     end
   end
 
-  def check_for_existing_objects(grade) #pulled this method from ^^^
+  def check_for_existing_objects(grade)
     if enrollment.nil?
       create_enrollment_objects(grade, parser.get_enrollment)
     else

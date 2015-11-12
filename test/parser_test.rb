@@ -5,11 +5,13 @@ require './lib/csv_parser_0'
 require 'pry'
 
 class ParserTest < Minitest::Test
-  attr_reader :csv, :parser, :path
+  attr_reader :csv, :parser, :path, :test_parser, :test_path
 
   def setup
     @csv = CSV.open("./test/fixtures/sample_kindergarten_data.csv", {:headers => true, header_converters: :symbol})
     @parser = CSVParser.new
+    @test_parser = TestingParser.new
+    @test_path = test_parser.load_data('./test/fixtures/sample_3rd_grade_data.csv')
     @path = parser.load_data('./test/fixtures/sample_kindergarten_data.csv')
   end
 
@@ -47,6 +49,11 @@ class ParserTest < Minitest::Test
     enrollment = parser.get_enrollment
     answer = {"2010"=>"1", "2011"=>"1"}
     assert_equal answer, enrollment["ADAMS COUNTY 14"]
+  end
+
+  def test_can_load_statewide_testing_data_and_parse_correctly
+    data = test_parser.get_testing_data
+    assert data
   end
 
 end

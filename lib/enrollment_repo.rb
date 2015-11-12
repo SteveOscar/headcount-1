@@ -3,24 +3,26 @@ require_relative 'enrollment'
 require_relative 'csv_parser_0'
 
 class EnrollmentRepo
-
   attr_accessor :enrollment, :districts, :c
+  attr_reader :parser
 
   def initialize
-    @c = CSVParser.new
+    @parser = CSVParser.new #renamed parser instance from 'c'
   end
 
   def load_data(given_data)
-    path = given_data[:enrollment]
-    path.each do |grade, percentages_data|
-      c.load_data(percentages_data)
-      if @enrollment.nil?
-        create_enrollment_objects(grade, c.get_enrollment)
-      else
-        append_data_onto_enrollment_object(grade, c.get_enrollment)
-      end
+    given_data[:enrollment].each do |grade, percentages_data| # removed path variable assignment
+      parser.load_data(percentages_data)
+      check_for_existing_objects(grade)
     end
+  end
 
+  def check_for_existing_objects(grade) #pulled this method from ^^^
+    if enrollment.nil?
+      create_enrollment_objects(grade, parser.get_enrollment)
+    else
+      append_enrollment(grade, parser.get_enrollment)
+    end
   end
 
   def create_enrollment_objects(grade, hash)
@@ -30,8 +32,8 @@ class EnrollmentRepo
     enrollment
   end
 
-  def append_data_onto_enrollment_object(grade, hash)
-    @enrollment.each do |object|
+  def append_enrollment(grade, hash)
+    enrollment.each do |object|
       object.enrollment_data.merge!({ grade => (hash.select { |k,v| k == object.district }).values[0]})
     end
   end

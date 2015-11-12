@@ -12,8 +12,7 @@ class DistrictRepo
   end
 
   def load_data(given_data)
-    path = given_data[:enrollment][:kindergarten]
-    c.load_data(path)
+    c.load_data(given_data[:enrollment][:kindergarten]) #removed path variable assignment
     create_district_objects(c.get_districts)
     er.load_data(given_data)
     link_district_to_enrollment

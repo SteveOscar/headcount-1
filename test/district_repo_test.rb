@@ -90,8 +90,10 @@ class DistrictRepoTest < Minitest::Test
     district = dr.find_by_name("ACADEMY 20")
     assert_equal "ACADEMY 20", district.enrollment.district
 
-    answer = {"2007"=>"0.39465", "2006"=>"0.33677", "2005"=>"0.27807", "2004"=>"0.24014", "2008"=>"0.5357", "2009"=>"0.598", "2010"=>"0.64019", "2011"=>"0.672", "2012"=>"0.695", "2013"=>"0.70263", "2014"=>"0.74118"}
+    answer = {:kindergarten=>{"2007"=>"0.39465", "2006"=>"0.33677", "2005"=>"0.27807", "2004"=>"0.24014", "2008"=>"0.5357", "2009"=>"0.598", "2010"=>"0.64019", "2011"=>"0.672", "2012"=>"0.695", "2013"=>"0.70263", "2014"=>"0.74118"}}
     district = dr.find_by_name("COLORADO")
     assert_equal answer, district.enrollment.enrollment_data
   end
+  
+
 end

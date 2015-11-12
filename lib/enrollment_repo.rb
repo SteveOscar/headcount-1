@@ -34,7 +34,6 @@ class EnrollmentRepo
     @enrollment.each do |object|
       object.enrollment_data.merge!({ grade => hash.select { |k,v| k == object.district }})
     end
-    binding.pry
   end
 
   def find_by_name(string)

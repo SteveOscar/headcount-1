@@ -14,14 +14,14 @@ class HeadcountAnalyst
   end
 
   def average_values(array)
-    array = array.map(&:to_f)
+    array = array.first.values.map(&:to_f)
     answer = array.reduce(:+) / array.length
   end
 
   def kindergarten_participation_rate_variation_trend(district, hash)
     answers = {}
-    initial = dr.find_by_name(district).enrollment.enrollment_data
-    comparison = dr.find_by_name(hash.values.join).enrollment.enrollment_data
+    initial = dr.find_by_name(district).enrollment.enrollment_data.values.first
+    comparison = dr.find_by_name(hash.values.join).enrollment.enrollment_data.values.first
     initial.each do |k, v|
       answers[k] = (v.to_f / comparison[k].to_f).round(3)
     end

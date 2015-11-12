@@ -10,7 +10,7 @@ class EnrollmentRepoTest < Minitest::Test
   attr_reader :er
   def setup
     @er = EnrollmentRepo.new
-    #er.load_data({:enrollment => {:kindergarten => "./test/fixtures/sample_kindergarten_data.csv"}})
+    er.load_data({:enrollment => {:kindergarten => "./test/fixtures/sample_kindergarten_data.csv"}})
   end
 
   def test_can_instatiate_district_repo
@@ -65,7 +65,7 @@ class EnrollmentRepoTest < Minitest::Test
   end
 
   def test_can_take_in_multiple_data_sets
-    er.load_data({:enrollment => {:kindergarten_enrollment => "./test/fixtures/sample_kindergarten_data_expanded.csv", :high_school_graduation => "./test/fixtures/sample_hs_graduation_data.csv"}})
+    er.load_data({:enrollment => {:high_school_graduation => "./test/fixtures/sample_hs_graduation_data.csv"}})
   end
 
 end

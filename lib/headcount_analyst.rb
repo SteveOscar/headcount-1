@@ -31,6 +31,7 @@ class HeadcountAnalyst
   end
 
   def kindergarten_participation_against_high_school_graduation(district)
+    district = district.values[0] if district.class == Hash
     kindergarten_variation = kindergarten_participation_rate_variation(district, :against => "COLORADO")
     initial = dr.find_by_name(district)
     comparison = dr.find_by_name("COLORADO")
@@ -38,8 +39,17 @@ class HeadcountAnalyst
   end
 
 
-  def kindergarten_participation_correlates_with_high_school_graduation
-    1
+  def kindergarten_participation_correlates_with_high_school_graduation(hash)
+    test = kindergarten_participation_against_high_school_graduation(hash)
+    if hash.values[0] == "COLORADO" && test >= 0.7
+      return true
+    elsif 0.6 < test && test < 1.5 && hash.values[0] != "COLORADO"
+      return true
+    else
+      return false
+    end
+
+
   end
 
 

@@ -94,6 +94,6 @@ class DistrictRepoTest < Minitest::Test
     district = dr.find_by_name("COLORADO")
     assert_equal answer, district.enrollment.enrollment_data
   end
-  
+
 
 end

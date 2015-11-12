@@ -57,7 +57,7 @@ class EnrollmentRepoTest < Minitest::Test
     assert_equal "ADAMS COUNTY 14", object[0].district
     assert_equal "ADAMS COUNTY 15", object[1].district
   end
-
+  
   def test_find_all_matching_names_finds_objects_with_lowercase
     object = er.find_all_matching("adams county")
     assert_equal "ADAMS COUNTY 14", object[0].district

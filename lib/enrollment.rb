@@ -16,4 +16,12 @@ class Enrollment
     enrollment_data[:kindergarten_participation][year].round(3)
   end
 
+  def graduation_rate_by_year
+    enrollment_data[:high_school_graduation]
+  end
+
+  def graduation_rate_in_year(year)
+    enrollment_data[:high_school_graduation][year.to_s].to_f.round(3)
+  end
+
 end

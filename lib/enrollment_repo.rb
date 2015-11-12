@@ -32,7 +32,7 @@ class EnrollmentRepo
 
   def append_data_onto_enrollment_object(grade, hash)
     @enrollment.each do |object|
-      object.enrollment_data.merge!({ grade => hash.select { |k,v| k == object.district }})
+      object.enrollment_data.merge!({ grade => (hash.select { |k,v| k == object.district }).values[0]})
     end
   end
 

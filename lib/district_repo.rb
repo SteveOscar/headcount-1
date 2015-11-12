@@ -4,15 +4,15 @@ require_relative 'csv_parser_0'
 require_relative 'enrollment_repo'
 
 class DistrictRepo
-  attr_accessor :districts, :er
+  attr_accessor :districts, :er, :c
 
   def initialize
     @er = EnrollmentRepo.new
+    @c = CSVParser.new
   end
 
   def load_data(given_data)
     path = given_data[:enrollment][:kindergarten]
-    c = CSVParser.new
     c.load_data(path)
     create_district_objects(c.get_districts)
     er.load_data(given_data)

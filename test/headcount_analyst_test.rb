@@ -57,9 +57,14 @@ class HeadcountAnalystTest < Minitest::Test
     assert_equal true, ha.kindergarten_participation_correlates_with_high_school_graduation(for: "ACADEMY 20")
   end
 
-  # def test_kindergarten_correlates_high_school_against_state
-  #   answer = ha.kindergarten_participation_correlates_with_high_school_graduation(:for => "COLORADO")
-  #
-  #   assert_equal false, answer
-  # end
+  def test_kindergarten_correlates_high_school_against_state
+    answer = ha.kindergarten_participation_correlates_with_high_school_graduation(:for => "COLORADO")
+
+    assert_equal true, answer
+  end
+
+  def test_kindergarten_participation_correlates_with_high_school_graduation_across_mulitple_districts
+    answer = ha.kindergarten_participation_correlates_with_high_school_graduation(:across => ['ACADEMY 20', 'ADAMS COUNTY 14'])
+    refute answer
+  end
 end

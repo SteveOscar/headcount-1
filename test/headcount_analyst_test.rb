@@ -10,7 +10,7 @@ class HeadcountAnalystTest < Minitest::Test
   def setup
     @dr = DistrictRepo.new
     @ha = HeadcountAnalyst.new(dr)
-    dr.load_data({:enrollment => {:kindergarten => "./test/fixtures/sample_kindergarten_data_expanded.csv"}})
+    dr.load_data({:enrollment => {:kindergarten => "./test/fixtures/sample_kindergarten_data_expanded.csv", :high_school_graduation => "./test/fixtures/sample_hs_graduation_data.csv"}})
   end
 
   def test_can_create_HA_instance
@@ -47,4 +47,19 @@ class HeadcountAnalystTest < Minitest::Test
     assert_equal answer, ha.kindergarten_participation_rate_variation_trend('ACADEMY 20', :against => 'ADAMS COUNTY 14')
   end
 
+  def test_kindergarten_participation_against_high_school_graduation_exists
+    ha.kindergarten_participation_against_high_school_graduation("ACADEMY 20")
+    binding.pry
+    assert_equal 0.647, ha.kindergarten_participation_against_high_school_graduation("ACADEMY 20")
+  end
+
+  def test_kindergarten_participation_against_high_school_graduation
+    skip
+    assert ha.kindergarten_participation_against_high_school_graduation("blah")
+  end
+
+  # def test_kindergarten_participation_correlates_with_high_school_graduation_exists
+  #
+  #   assert_equal 0.394 ha.kindergarten_participation_correlates_with_high_school_graduation
+  # end
 end

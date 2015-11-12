@@ -4,20 +4,36 @@ require_relative 'csv_parser_0'
 
 class EnrollmentRepo
 
-  attr_accessor :enrollment, :districts
+  attr_accessor :enrollment, :districts, :c
 
-  def load_data(given_data)
-    path = given_data[:enrollment][:kindergarten]
-    c = CSVParser.new
-    c.load_data(path)
-    create_enrollment_objects(c.get_enrollment)
+  def initialize
+    @c = CSVParser.new
   end
 
-  def create_enrollment_objects(hash)
-    @enrollment = hash.map do |district, enrollment|
-      Enrollment.new({district: district, kindergarten_participation: enrollment})
+  def load_data(given_data)
+    path = given_data[:enrollment]
+    path.each do |grade, percentages_data|
+      c.load_data(percentages_data)
+      if @enrollment.nil?
+        create_enrollment_objects(grade, c.get_enrollment)
+      else
+        append_data_onto_enrollment_object(grade, c.get_enrollment)
+      end
+    end
+
+  end
+
+  def create_enrollment_objects(grade, hash)
+    @enrollment = hash.map do |name, enrollment|
+      Enrollment.new({district: name, grade => enrollment})
     end
     enrollment
+  end
+
+  def append_data_onto_enrollment_object(grade, hash)
+    @enrollment.each do |object|
+      object.enrollment_data.merge!({ grade => (hash.select { |k,v| k == object.district }).values[0]})
+    end
   end
 
   def find_by_name(string)

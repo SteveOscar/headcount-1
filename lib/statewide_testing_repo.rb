@@ -15,7 +15,6 @@ class StatewideTestingRepo
       parser.load_data(percentages_data)
       check_for_existing_objects(grade)
     end
-    binding.pry
   end
 
   def check_for_existing_objects(grade)
@@ -41,6 +40,10 @@ class StatewideTestingRepo
 
   def find_by_name(string)
     statewide_testing.find { |object| object.district == string.to_s.upcase }
+  end
+
+  def find_all_matching(string)
+    statewide_testing.find_all { |object| object.district.include?(string.upcase) }
   end
 
 end

@@ -51,9 +51,36 @@ class ParserTest < Minitest::Test
     assert_equal answer, enrollment["ADAMS COUNTY 14"]
   end
 
-  def test_can_load_statewide_testing_data_and_parse_correctly
+  def test_can_initialize_testing_parser
     data = test_parser.get_testing_data
     assert data
+  end
+
+  def test_test_parser_can_load_statewide_testing_data_and_parse_correctly
+    data = test_parser.get_testing_data
+    answer = {"Math"=>"0.696", "Reading"=>"0.728", "Writing"=>"0.513"}
+    assert_equal answer, data["COLORADO"]["2011"]
+  end
+
+  def test_test_parser_can_load_statewide_data_and_pull_out_specific_data
+    data = test_parser.get_testing_data
+    answer = "0.54"
+    assert_equal answer, data["ADAMS COUNTY 14"]["2012"]["Reading"]
+  end
+
+  def test_test_parser_can_load_multiple_districts
+    data = test_parser.get_testing_data
+    assert_equal 14, data.count
+  end
+
+  def test_test_parser_doesnt_find_non_existant_data
+    data = test_parser.get_testing_data
+    refute data["GREG"]
+  end
+
+  def test_test_parser_correctly_elminates_duplicates
+    data = test_parser.get_testing_data
+    assert data.keys == data.keys.uniq
   end
 
 end

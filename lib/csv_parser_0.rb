@@ -39,11 +39,10 @@ class TestingParser
       elsif !(data.has_key?(line[0].upcase))
         data[(line[0].upcase)] = {line[2] => { line[1] =>line[4] }}
       else
-        data[(line[0].upcase)][line[2]].merge!({ line[1] =>line[4] }) if data[line[0].upcase][line[2]]
+        data[(line[0].upcase)][line[2]].merge!({ line[1] =>line[4] }) #if data[line[0].upcase][line[2]]
       end
     end
     data
   end
-
 
 end

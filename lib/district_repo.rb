@@ -27,7 +27,6 @@ class DistrictRepo
         link_district_to_statewide_testing
       end
     end
-    binding.pry
   end
 
   def link_district_to_enrollment

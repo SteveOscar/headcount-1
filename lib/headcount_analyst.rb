@@ -37,30 +37,34 @@ class HeadcountAnalyst
     (kindergarten_variation / (find_variation(initial, comparison, :high_school_graduation))).round(3)
   end
 
+  def district_rate_shows_correlation?(rate)
+    0.6 < rate && rate < 1.5# && hash.values[0] != "COLORADO"
+  end
+
+  def district_kindergarten_participation_correlated_with_high_school_graduation?(district)
+    rate = kindergarten_participation_against_high_school_graduation(district)
+    district_rate_shows_correlation?(rate)
+  end
 
   def kindergarten_participation_correlates_with_high_school_graduation(hash)
-    if hash.keys == [:for]
-      test = kindergarten_participation_against_high_school_graduation(hash[:for])
-      if hash.values[0] == "COLORADO" && test >= 0.7
-        true
-      elsif 0.6 < test && test < 1.5 && hash.values[0] != "COLORADO"
-        true
-      else
-        false
-      end
+    if hash == {:for => "COLORADO"}
+      statewide_kindergarten_rates_show_correlation?
+    elsif hash.keys == [:for]
+      district_kindergarten_participation_correlated_with_high_school_graduation?(hash[:for])
     else
       districts = hash[:across]
 
-      correlations = districts.map do |district|
-        kindergarten_participation_against_high_school_graduation(district)
+      correlated_districts = districts.select do |d|
+        district_kindergarten_participation_correlated_with_high_school_graduation?(d)
       end
 
-      correlated = correlations.select do |c|
-        c > 0.6 && c < 1.5
-      end
-
-      (correlated.count / districts.count.to_f) > 0.7
+      correlated_districts.count / districts.count.to_f >= 0.7
     end
+  end
+
+  def statewide_kindergarten_rates_show_correlation?
+    rate = kindergarten_participation_against_high_school_graduation("COLORADO")
+    rate >= 0.7
   end
 
 

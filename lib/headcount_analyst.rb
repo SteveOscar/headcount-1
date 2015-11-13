@@ -16,7 +16,7 @@ module KindergartenAnalytics
     end
 
     def district_rate_shows_correlation?(rate)
-      0.6 < rate && rate < 1.5# && hash.values[0] != "COLORADO"
+      0.6 < rate && rate < 1.5
     end
 
     def district_kindergarten_participation_correlated_with_high_school_graduation?(district)
@@ -31,11 +31,9 @@ module KindergartenAnalytics
         district_kindergarten_participation_correlated_with_high_school_graduation?(hash[:for])
       else
         districts = hash[:across]
-
         correlated_districts = districts.select do |d|
           district_kindergarten_participation_correlated_with_high_school_graduation?(d)
         end
-
         correlated_districts.count / districts.count.to_f >= 0.7
       end
     end
@@ -48,7 +46,6 @@ end
 
 class HeadcountAnalyst
   include KindergartenAnalytics
-
   attr_reader :dr
 
   def initialize(dr = nil)
@@ -71,7 +68,4 @@ class HeadcountAnalyst
     dem = average_values(comparison.enrollment.enrollment_data[grade])
     (num / dem).round(3)
   end
-
-
-
 end

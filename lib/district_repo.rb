@@ -41,7 +41,6 @@ class DistrictRepo
     end
   end
 
-
   def create_district_objects(array)
     @districts = array.map do |district|
       District.new({district: district})

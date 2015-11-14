@@ -110,4 +110,15 @@ class StatewideTestingTest < Minitest::Test
     end
   end
 
+  def test_proficient_for_subject_by_grade_in_year_exists
+    found = @swtr.find_by_name("COLORADO")
+    assert found.proficient_for_subject_by_grade_in_year(:math, 3, 2012)
+  end
+
+  def test_proficient_for_subject_by_grade_in_year_returns_correct_data
+    found = @swtr.find_by_name("COLORADO")
+    answer = found.proficient_for_subject_by_grade_in_year(:reading, 3, 2012)
+    assert_equal 0.739, answer
+  end
+
 end

@@ -109,7 +109,7 @@ class DistrictRepoTest < Minitest::Test
     assert_equal "ACADEMY 20", district.enrollment.district
   end
 
-  def test_can_load_all_releveant_data_files
+  def test_can_load_all_releveant_data_files_intergration_test
     dr = DistrictRepo.new
     dr.load_data({:enrollment => {:high_school_graduation => "./data/High school graduation rates.csv", :kindergarten => "./data/kindergartners in full-day program.csv"},
     :statewide_testing => {
@@ -118,7 +118,8 @@ class DistrictRepoTest < Minitest::Test
     :math => "./data/Average proficiency on the CSAP_TCAP by race_ethnicity_ Math.csv",
     :reading => "./data/Average proficiency on the CSAP_TCAP by race_ethnicity_ Reading.csv",
     :writing => "./data/Average proficiency on the CSAP_TCAP by race_ethnicity_ Writing.csv"}})
-
-    end
+    assert_equal 181, dr.districts.count
+    assert_equal "YUMA SCHOOL DISTRICT 1", dr.districts.last.district
+  end
 
 end

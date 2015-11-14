@@ -34,6 +34,15 @@ class StatewideTesting
     key[1][race.to_s.capitalize].to_f.round(3)
   end
 
+  def proficient_for_subject_by_grade_in_year(subject, grade, year)
+    case grade
+    when 3
+      grade = :third_grade
+    when 8
+      grade = :eigth_grade
+    end
+    (test_data[grade][year.to_s][subject.to_s.capitalize]).to_f
+  end
 end
 
 class UnknownDataError < StandardError

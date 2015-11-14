@@ -13,24 +13,32 @@ class StatewideTesting
       statewide_testing_data[:third_grade]
     elsif grade == 8
       statewide_testing_data[:eigth_grade]
+    else
+      raise UnknownDataError.new
     end
   end
 
   def proficient_by_race_or_ethnicity(race)
-    ## raise error if race != [:asian, :black, :pacific_islander, :hispanic, :native_american, :two_or_more, :white]
-    data = {}
-    statewide_testing_data[:math].each do |key|
-      data.merge!({ key[0] => {:math => key[1][race.to_s.capitalize].to_f.round(3) }})
-    end
-    statewide_testing_data[:reading].each do |key|
-      data[key[0]].merge!({:reading => key[1][race.to_s.capitalize].to_f.round(3) })
-    end
-    statewide_testing_data[:writing].each do |key|
-      data[key[0]].merge!({:writing => key[1][race.to_s.capitalize].to_f.round(3) })
+    if ![:asian, :black, :pacific_islander, :hispanic, :native_american, :two_or_more, :white].include?(race)
+      raise UnknownDataError.new
+    else
+      data = {}
+      statewide_testing_data[:math].each do |key|
+        data.merge!({ key[0] => {:math => key[1][race.to_s.capitalize].to_f.round(3) }})
+      end
+      statewide_testing_data[:reading].each do |key|
+        data[key[0]].merge!({:reading => key[1][race.to_s.capitalize].to_f.round(3) })
+      end
+      statewide_testing_data[:writing].each do |key|
+        data[key[0]].merge!({:writing => key[1][race.to_s.capitalize].to_f.round(3) })
+      end
     end
     data
   end
 
+end
+
+class UnknownDataError < StandardError
 end
 
 # def proficient_by_race_or_ethnicity(race)

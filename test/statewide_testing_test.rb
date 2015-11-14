@@ -83,6 +83,18 @@ class StatewideTestingTest < Minitest::Test
     assert_equal 3, result.first[1].length
   end
 
+  def test_proficient_by_grade_raises_an_error_with_unknown_grade_argument
+    found = @swtr.find_by_name("COLORADO")
+    assert_raises UnknownDataError do
+      found.proficient_by_grade(4)
+    end
+  end
 
+  def test_proficient_by_race_raises_an_error_with_unknown_grade_argument
+    found = @swtr.find_by_name("COLORADO")
+    assert_raises UnknownDataError do
+      found.proficient_by_race_or_ethnicity(:yellow)
+    end
+  end
 
 end

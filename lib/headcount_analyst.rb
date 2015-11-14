@@ -43,9 +43,39 @@ module KindergartenAnalytics
       rate >= 0.7
     end
 end
+module StatewideAnalytics
+
+  def top_statewide_test_year_over_year_growth(grade, subject)
+    district = dr.find_by_name("ACADEMY 20")
+    years = district.statewide_testing.test_data[grade]
+    array = years.map do |year|
+      (year[1][subject]).to_f
+    end
+
+    i = 1
+    differences = []
+    loop do
+      differences << (array[i] - array[i-1])
+      i += 1
+      break if i == array.size
+    end
+    answer = differences.reduce(:+) / differences.length
+    answer.round(3)
+  end
+
+
+
+
+
+
+
+
+
+end
 
 class HeadcountAnalyst
   include KindergartenAnalytics
+  include StatewideAnalytics
   attr_reader :dr
 
   def initialize(dr = nil)

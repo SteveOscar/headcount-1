@@ -10,7 +10,19 @@ class HeadcountAnalystTest < Minitest::Test
   def setup
     @dr = DistrictRepo.new
     @ha = HeadcountAnalyst.new(dr)
-    dr.load_data({:enrollment => {:kindergarten => "./test/fixtures/sample_kindergarten_data_expanded.csv", :high_school_graduation => "./test/fixtures/sample_hs_graduation_data.csv"}})
+    dr.load_data({
+                    :enrollment => {
+                      :kindergarten => "./data/Kindergartners in full-day program.csv",
+                      :high_school_graduation => "./data/High school graduation rates.csv",
+                    },
+                    :statewide_testing => {
+                      :third_grade => "./data/3rd grade students scoring proficient or above on the CSAP_TCAP.csv",
+                      :eigth_grade => "./data/8th grade students scoring proficient or above on the CSAP_TCAP.csv",
+                      :math => "./data/Average proficiency on the CSAP_TCAP by race_ethnicity_ Math.csv",
+                      :reading => "./data/Average proficiency on the CSAP_TCAP by race_ethnicity_ Reading.csv",
+                      :writing => "./data/Average proficiency on the CSAP_TCAP by race_ethnicity_ Writing.csv"
+                    }
+                  })
   end
 
   def test_can_create_HA_instance
@@ -50,7 +62,7 @@ class HeadcountAnalystTest < Minitest::Test
   def test_kindergarten_participation_against_high_school_graduation_exists
     ha.kindergarten_participation_against_high_school_graduation("ACADEMY 20")
 
-    assert_equal 0.647, ha.kindergarten_participation_against_high_school_graduation("ACADEMY 20")
+    assert_equal 0.641, ha.kindergarten_participation_against_high_school_graduation("ACADEMY 20")
   end
 
   def test_kindergarten_participation_correlates_with_high_school_graduation_exists
@@ -66,5 +78,11 @@ class HeadcountAnalystTest < Minitest::Test
   def test_kindergarten_participation_correlates_with_high_school_graduation_across_mulitple_districts
     answer = ha.kindergarten_participation_correlates_with_high_school_graduation(:across => ['ACADEMY 20', 'ADAMS COUNTY 14'])
     refute answer
+  end
+
+  def test_top_statewide_test_year_over_year_growth
+    answer = ha.top_statewide_test_year_over_year_growth(:third_grade, "Math")
+
+    assert_equal -0.004, answer
   end
 end

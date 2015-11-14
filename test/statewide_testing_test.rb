@@ -77,9 +77,15 @@ class StatewideTestingTest < Minitest::Test
     assert_equal data, result.first
   end
 
-  def test_proficient_by_race_or_ethnicity_returns_all_three_subjects
+  def test_proficient_by_race_or_ethnicity_returns_all_three_subjects_for_white
     found = @swtr.find_by_name("COLORADO")
     result = found.proficient_by_race_or_ethnicity(:white)
+    assert_equal 3, result.first[1].length
+  end
+
+  def test_proficient_by_race_or_ethnicity_returns_all_three_subjects_for_asian
+    found = @swtr.find_by_name("COLORADO")
+    result = found.proficient_by_race_or_ethnicity(:asian)
     assert_equal 3, result.first[1].length
   end
 
@@ -87,6 +93,13 @@ class StatewideTestingTest < Minitest::Test
     found = @swtr.find_by_name("COLORADO")
     assert_raises UnknownDataError do
       found.proficient_by_grade(4)
+    end
+  end
+
+  def test_proficient_by_grade_raises_an_error_with_nil_argument
+    found = @swtr.find_by_name("COLORADO")
+    assert_raises UnknownDataError do
+      found.proficient_by_grade(nil)
     end
   end
 

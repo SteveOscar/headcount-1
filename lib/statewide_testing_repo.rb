@@ -34,7 +34,7 @@ class StatewideTestingRepo
 
   def append_statewide_testing(grade, hash)
     statewide_testing.each do |object|
-      object.statewide_testing_data.merge!({ grade => (hash.select { |k,v| k == object.district }).values[0]})
+      object.test_data.merge!({ grade => (hash.select { |k,v| k == object.district }).values[0]})
     end
   end
 

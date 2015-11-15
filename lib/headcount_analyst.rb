@@ -45,24 +45,53 @@ module KindergartenAnalytics
 end
 module StatewideAnalytics
 
-  def top_statewide_test_year_over_year_growth(grade, subject, top=1)
+  def top_statewide_test_year_over_year_growth(grade, subjects = [:reading, :writing, :math], top=1)
+    districts_results = {}
+    subjects = [subjects] unless subjects.class == Array
+    subjects.each do |subject|
+      districts_results[subject] = get_all_districts_growth_per_subject(grade, subject)
+    end
+    districts_overall_growth = {}
+    districts_results.each do |subject, district_score_pair|
+      district_score_pair.each do |district, percentage|
+        if districts_overall_growth.has_key?(district)
+          districts_overall_growth[district] += percentage
+        else
+          districts_overall_growth[district] = percentage
+        end
+      end
+    end
+    answer = find_top_district(districts_overall_growth, top)
+    result = answer.map do |element|
+      [element[0], (element[1] / subjects.size)]
+    end
+    result = result[0] if result.length == 1
+    result
+
+  end
+
+  def get_all_districts_growth_per_subject(grade, subject)
     results = {}
-    top_district = []
     dr.districts.each do |district|
       results.merge!({district.district => get_district_year_over_year(grade, subject, district.district)})
     end
+    results
+  end
+
+  def find_top_district(results, top)
+    top_district = []
     top.times do
       top_district << results.max_by{ |k, v| v }
       results.delete(top_district.last[0])
     end
-      top_district
+    top_district
   end
 
   def get_district_year_over_year(grade, subject, district)
-    district = dr.find_by_name(district)
-    years = district.statewide_testing.test_data[grade]
+    found_district = dr.find_by_name(district)
+    years = found_district.statewide_testing.test_data[grade]
     array = years.map do |year|
-      (year[1][subject]).to_f
+      (year[1][subject.to_s.capitalize]).to_f
     end
     i = 1
     differences = []

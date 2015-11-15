@@ -46,12 +46,19 @@ end
 module StatewideAnalytics
 
   def top_statewide_test_year_over_year_growth(grade, subject)
-    district = dr.find_by_name("ACADEMY 20")
+    results = {}
+    dr.districts.each do |district|
+      results.merge!({district.district => get_district_year_over_year(grade, subject, district.district)})
+    end
+    results.max_by{ |k, v| v}
+  end
+
+  def get_district_year_over_year(grade, subject, district)
+    district = dr.find_by_name(district)
     years = district.statewide_testing.test_data[grade]
     array = years.map do |year|
       (year[1][subject]).to_f
     end
-
     i = 1
     differences = []
     loop do
@@ -62,8 +69,6 @@ module StatewideAnalytics
     answer = differences.reduce(:+) / differences.length
     answer.round(3)
   end
-
-
 
 
 

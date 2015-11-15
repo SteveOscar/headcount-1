@@ -45,12 +45,17 @@ module KindergartenAnalytics
 end
 module StatewideAnalytics
 
-  def top_statewide_test_year_over_year_growth(grade, subject)
+  def top_statewide_test_year_over_year_growth(grade, subject, top=1)
     results = {}
+    top_district = []
     dr.districts.each do |district|
       results.merge!({district.district => get_district_year_over_year(grade, subject, district.district)})
     end
-    results.max_by{ |k, v| v}
+    top.times do
+      top_district << results.max_by{ |k, v| v }
+      results.delete(top_district.last[0])
+    end
+      top_district
   end
 
   def get_district_year_over_year(grade, subject, district)

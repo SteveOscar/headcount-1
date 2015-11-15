@@ -79,17 +79,17 @@ class HeadcountAnalystTest < Minitest::Test
     refute answer
   end
 
-  def test_get_district_year_over_year
-    answer = ha.get_district_year_over_year(:third_grade, :math, "ACADEMY 20")
+  def test_district_change
+    answer = ha.district_change(:third_grade, :math, "ACADEMY 20")
     assert_equal -0.004, answer
   end
 
-  def test_get_district_year_over_year_results_for_all_districts
+  def test_district_change_results_for_all_districts
     result = ha.top_statewide_test_year_over_year_growth(:third_grade, :math)
     assert_equal ["SPRINGFIELD RE-4", 0.149], result
   end
 
-  def test_get_district_year_over_year_results_for_all_districts_top_3
+  def test_district_change_results_for_all_districts_top_3
     result = ha.top_statewide_test_year_over_year_growth(:third_grade, :math, 3)
     assert_equal 3, result.size
     assert_equal [["SPRINGFIELD RE-4", 0.149], ["WESTMINSTER 50", 0.1], ["CENTENNIAL R-1", 0.088]], result

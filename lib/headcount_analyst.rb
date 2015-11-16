@@ -46,15 +46,18 @@ end
 
 module StatewideAnalytics
 
-  def format_arguments(argument)
-    argument = argument.values.first if argument.keys == [:subject]
-    argument = :third_grade if argument == {:grade=>3}
-    argument = :eigth_grade if argument == {:grade=>8}
+  def format_argument(argument)
+    argument = :third_grade if argument == 3
+    argument = :eigth_grade if argument == 8
     argument
   end
 
-  def top_statewide_test_year_over_year_growth(grade, subjects = [:reading, :writing, :math], top=1)
-    subjects = [subjects] unless subjects.class == Array
+  def top_statewide_test_year_over_year_growth(arguments)
+    grade = format_argument(arguments[:grade])
+    subjects = [:reading, :writing, :math] if !arguments.has_key?(:subject)
+    subjects = [arguments[:subject]] if arguments.has_key?(:subject)
+    top = 1 if !arguments.has_key?(:top)
+    top = arguments[:top] if arguments.has_key?(:top)
     dists_results = {}
     subjects.each do |subject|
       dists_results[subject] = get_all_districts_growth_per_subject(grade, subject)

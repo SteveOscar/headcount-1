@@ -85,33 +85,36 @@ class HeadcountAnalystTest < Minitest::Test
   end
 
   def test_district_change_results_for_all_districts
-    result = ha.top_statewide_test_year_over_year_growth(:third_grade, :math)
+    result = ha.top_statewide_test_year_over_year_growth(grade: 3, subject: :math)
     assert_equal ["SPRINGFIELD RE-4", 0.149], result
   end
 
   def test_district_change_results_for_all_districts_top_3
-    result = ha.top_statewide_test_year_over_year_growth(:third_grade, :math, 3)
+    result = ha.top_statewide_test_year_over_year_growth(grade: 3, top: 3, subject: :math)
     assert_equal 3, result.size
     assert_equal [["SPRINGFIELD RE-4", 0.149], ["WESTMINSTER 50", 0.1], ["CENTENNIAL R-1", 0.088]], result
   end
 
   def test_can_get_districts_list_with_averaged_growth_per_subject
-    result = ha.top_statewide_test_year_over_year_growth(:third_grade)
+    result = ha.top_statewide_test_year_over_year_growth(grade: 3)
   end
 
-  def test_format_arguments_to_proper_format_for_grade
-    result1 = ha.format_arguments(grade: 3)
-    result2 = ha.format_arguments(grade: 8)
+  def test_format_argument_to_proper_format_for_grade
+    result1 = ha.format_argument(3)
+    result2 = ha.format_argument(8)
     assert_equal :third_grade, result1
     assert_equal :eigth_grade, result2
   end
 
-  def test_format_arguments_to_proper_format_for_subject
-    result1 = ha.format_arguments(subject: :math)
-    result2 = ha.format_arguments(subject: :reading)
-    assert_equal :math, result1
-    assert_equal :reading, result2
+  def test_formatted_arguments_work_in_top_statewide_method
+    result = ha.top_statewide_test_year_over_year_growth(grade: 3, subject: :math)
+    assert_equal ["SPRINGFIELD RE-4", 0.149], result
   end
 
+  def test_statewide_test_year_over_year_top_3_integration
+    result = ha.top_statewide_test_year_over_year_growth(grade: 3, top: 3, subject: :math)
+    answer = [["SPRINGFIELD RE-4", 0.149], ["WESTMINSTER 50", 0.1], ["CENTENNIAL R-1", 0.088]] #confirm data
+    assert_equal answer, result
+  end
 
 end

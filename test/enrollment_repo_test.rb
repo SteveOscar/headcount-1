@@ -1,7 +1,7 @@
 require 'minitest'
 require 'minitest/autorun'
 require 'minitest/pride'
-require './lib/enrollment_repo'
+require './lib/enrollment_repository'
 require 'pry'
 require './lib/district'
 
@@ -9,7 +9,7 @@ class EnrollmentRepoTest < Minitest::Test
 
   attr_reader :er
   def setup
-    @er = EnrollmentRepo.new
+    @er = EnrollmentRepository.new
     er.load_data({:enrollment => {:kindergarten => "./test/fixtures/sample_kindergarten_data.csv"}})
   end
 

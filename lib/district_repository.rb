@@ -1,15 +1,15 @@
 require 'pry'
 require_relative 'district'
 require_relative 'csv_parser_0'
-require_relative 'enrollment_repo'
-require_relative 'statewide_testing_repo'
+require_relative 'enrollment_repository'
+require_relative 'statewide_testing_repository'
 
-class DistrictRepo
+class DistrictRepository
   attr_accessor :districts, :er, :parser, :swtr, :test_parser
 
   def initialize
-    @swtr = StatewideTestingRepo.new
-    @er = EnrollmentRepo.new
+    @swtr = StatewideTestingRepository.new
+    @er = EnrollmentRepository.new
     @parser = CSVParser.new
     @test_parser = TestingParser.new
   end
@@ -31,29 +31,29 @@ class DistrictRepo
 
   def link_district_to_enrollment
     districts.each do |object|
-      object.enrollment = er.find_by_name(object.district)
+      object.enrollment = er.find_by_name(object.name)
     end
   end
 
   def link_district_to_statewide_testing
     districts.each do |object|
-      object.statewide_testing = swtr.find_by_name(object.district)
+      object.statewide_testing = swtr.find_by_name(object.name)
     end
   end
 
   def create_district_objects(array)
     @districts = array.map do |district|
-      District.new({district: district})
+      District.new({name: district})
     end
     districts
   end
 
   def find_by_name(string)
-    districts.find { |object| object.district == string.to_s.upcase }
+    districts.find { |object| object.name == string.to_s.upcase }
   end
 
   def find_all_matching(string)
-    districts.find_all { |object| object.district.include?(string.upcase) }
+    districts.find_all { |object| object.name.include?(string.upcase) }
   end
 
 end

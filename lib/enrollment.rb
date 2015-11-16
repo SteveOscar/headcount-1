@@ -1,10 +1,11 @@
 require 'pry'
 
 class Enrollment
-  attr_reader :district, :enrollment_data, :grade
+  attr_reader :district, :enrollment_data, :grade, :name
 
   def initialize(data)
     @district = data.values[0]
+    @name = district
     @enrollment_data = {data.keys[1] => data.values[1]}
   end
 
@@ -13,7 +14,7 @@ class Enrollment
   end
 
   def kindergarten_participation_in_year(year)
-    enrollment_data[:kindergarten_participation][year].round(3)
+    enrollment_data[:kindergarten][year].round(3)
   end
 
   def graduation_rate_by_year

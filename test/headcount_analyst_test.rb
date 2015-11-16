@@ -2,13 +2,13 @@ require 'minitest'
 require 'minitest/autorun'
 require 'minitest/pride'
 require './lib/headcount_analyst'
-require './lib/district_repo'
+require './lib/district_repository'
 require 'pry'
 
 class HeadcountAnalystTest < Minitest::Test
   attr_reader :dr, :ha
   def setup
-    @dr = DistrictRepo.new
+    @dr = DistrictRepository.new
     @ha = HeadcountAnalyst.new(dr)
     dr.load_data({
                     :enrollment => {

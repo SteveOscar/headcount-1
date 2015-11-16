@@ -2,7 +2,7 @@ require 'minitest'
 require 'minitest/autorun'
 require 'minitest/pride'
 require './lib/statewide_testing'
-require './lib/statewide_testing_repo'
+require './lib/statewide_testing_repository'
 require 'pry'
 
 class StatewideTestingTest < Minitest::Test
@@ -18,7 +18,7 @@ class StatewideTestingTest < Minitest::Test
              "2013"=>{"Math"=>"0.72295", "Reading"=>"0.73256", "Writing"=>"0.50947"},
              "2014"=>{"Math"=>"0.71589", "Reading"=>"0.71581", "Writing"=>"0.51072"}}}
     @sw = StatewideTesting.new(data)
-    @swtr = StatewideTestingRepo.new
+    @swtr = StatewideTestingRepository.new
     @swtr.load_data(:statewide_testing => {
     :third_grade => "./data/3rd grade students scoring proficient or above on the CSAP_TCAP.csv", :eigth_grade => "./data/8th grade students scoring proficient or above on the CSAP_TCAP.csv",
     :math => "./test/fixtures/sample_proficiency_CSAP_.csv", :reading => "./test/fixtures/sample_proficiency_reading.csv", :writing => "./test/fixtures/sample_proficiency_writing.csv"})

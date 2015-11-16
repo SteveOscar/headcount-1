@@ -2,15 +2,15 @@ require 'minitest'
 require 'minitest/autorun'
 require 'minitest/pride'
 require './lib/enrollment'
-require './lib/enrollment_repo'
+require './lib/enrollment_repository'
 require 'pry'
 
 class EnrollmentTest < Minitest::Test
   attr_reader :e, :er
 
   def setup
-    @er = EnrollmentRepo.new
-    @e = Enrollment.new({:district => "ACADEMY 20", :kindergarten_participation => {2010 => 0.3915, 2011 => 0.35356, 2012 => 0.2677}})
+    @er = EnrollmentRepository.new
+    @e = Enrollment.new({:district => "ACADEMY 20", :kindergarten => {2010 => 0.3915, 2011 => 0.35356, 2012 => 0.2677}})
   end
 
   def test_can_instantiate_district
@@ -18,7 +18,7 @@ class EnrollmentTest < Minitest::Test
   end
 
   def test_can_initialize_with_data
-    data = {:kindergarten_participation=>{2010=>0.3915, 2011=>0.35356, 2012=>0.2677}}
+    data = {:kindergarten=>{2010=>0.3915, 2011=>0.35356, 2012=>0.2677}}
     assert_equal data, e.enrollment_data
   end
 
@@ -32,7 +32,7 @@ class EnrollmentTest < Minitest::Test
 
   def test_kindergarten_participation_by_year_returns_correct_data
     result = e.kindergarten_participation_by_year
-    data = {:kindergarten_participation=>{2010=>0.3915, 2011=>0.35356, 2012=>0.2677}}
+    data = {:kindergarten=>{2010=>0.3915, 2011=>0.35356, 2012=>0.2677}}
     assert_equal data, result
   end
 

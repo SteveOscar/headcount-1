@@ -56,7 +56,7 @@ module StatewideAnalytics
   def get_all_districts_growth_per_subject(grade, subject)
     results = {}
     dr.districts.each do |district|
-      results.merge!({district.district => district_change(grade, subject, district.district)})
+      results.merge!({district.name => district_change(grade, subject, district.name)})
     end
     results
   end

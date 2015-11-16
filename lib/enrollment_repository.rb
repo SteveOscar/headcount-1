@@ -2,7 +2,7 @@ require 'pry'
 require_relative 'enrollment'
 require_relative 'csv_parser_0'
 
-class EnrollmentRepo
+class EnrollmentRepository
   attr_accessor :enrollment, :districts
   attr_reader :parser
 

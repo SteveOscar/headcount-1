@@ -100,8 +100,8 @@ class HeadcountAnalystTest < Minitest::Test
   end
 
   def test_format_argument_to_proper_format_for_grade
-    result1 = ha.format_argument(3)
-    result2 = ha.format_argument(8)
+    result1 = ha.format_grade_argument(3)
+    result2 = ha.format_grade_argument(8)
     assert_equal :third_grade, result1
     assert_equal :eigth_grade, result2
   end
@@ -115,6 +115,21 @@ class HeadcountAnalystTest < Minitest::Test
     result = ha.top_statewide_test_year_over_year_growth(grade: 3, top: 3, subject: :math)
     answer = [["SPRINGFIELD RE-4", 0.149], ["WESTMINSTER 50", 0.1], ["CENTENNIAL R-1", 0.088]] #confirm data
     assert_equal answer, result
+  end
+
+  def test_raises_error_if_no_grade_is_provided
+    e = assert_raises InsufficientInformationError do
+      ha.top_statewide_test_year_over_year_growth(top: 3, subject: :math)
+    end
+
+    assert_equal "A grade must be provided to answer this question", e.message
+  end
+
+  def test_raises_error_if_unknown_grade_is_provided
+    e = assert_raises UnknownDataError do
+      ha.top_statewide_test_year_over_year_growth(grade: 9, subject: :math)
+    end
+    assert_equal "9 is not a known grade", e.message
   end
 
 end

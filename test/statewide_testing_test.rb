@@ -95,7 +95,7 @@ class StatewideTestingTest < Minitest::Test
   end
 
   def test_proficient_by_race_raises_an_error_with_unknown_grade_argument
-    assert_raises UnknownDataError do
+    assert_raises UnknownRaceError do
       found.proficient_by_race_or_ethnicity(:yellow)
     end
   end

@@ -32,7 +32,7 @@ class StatewideTesting
 
   def proficient_by_race_or_ethnicity(race)
     if !races.include?(race)
-      raise UnknownDataError.new
+      raise UnknownRaceError.new
     else
       data = {}
       test_data[:math].each { |key| data.merge!({ key[0] => {:math => data(race, key) }}) }
@@ -71,6 +71,9 @@ class StatewideTesting
 end
 
 class UnknownDataError < StandardError
+end
+
+class UnknownRaceError < StandardError
 end
 
 # def proficient_by_race_or_ethnicity(race)

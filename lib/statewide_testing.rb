@@ -1,4 +1,5 @@
 require 'pry'
+require_relative 'error_classes'
 
 class StatewideTesting
   attr_reader :district, :test_data, :grade
@@ -69,26 +70,3 @@ class StatewideTesting
   end
 
 end
-
-class UnknownDataError < StandardError
-end
-
-class UnknownRaceError < StandardError
-end
-
-# def proficient_by_race_or_ethnicity(race)
-#   ## raise error if race != [:asian, :black, :pacific_islander, :hispanic, :native_american, :two_or_more, :white]
-#   data = {}
-#   test_data[:math].each do |key|
-#     binding.pry
-#     data.merge!({ key[0] => {:math => key[1][race.to_s.capitalize].to_f.round(3) }})
-#   end
-#   test_data[:reading].each { |key| add_data(key, data, race) }
-#   test_data[:writing].each { |key| add_data(key, data, race) }
-#   binding.pry
-#   data
-# end
-#
-# def add_data(key, data, race)
-#   data[key[0]].merge!({:reading => key[1][race.to_s.capitalize].to_f.round(3) })
-# end

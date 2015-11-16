@@ -27,7 +27,6 @@ class DistrictRepo
         link_district_to_statewide_testing
       end
     end
-    binding.pry
   end
 
   def link_district_to_enrollment
@@ -41,7 +40,6 @@ class DistrictRepo
       object.statewide_testing = swtr.find_by_name(object.district)
     end
   end
-
 
   def create_district_objects(array)
     @districts = array.map do |district|

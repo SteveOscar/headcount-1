@@ -46,6 +46,13 @@ end
 
 module StatewideAnalytics
 
+  def format_arguments(argument)
+    argument = argument.values.first if argument.keys == [:subject]
+    argument = :third_grade if argument == {:grade=>3}
+    argument = :eigth_grade if argument == {:grade=>8}
+    argument
+  end
+
   def top_statewide_test_year_over_year_growth(grade, subjects = [:reading, :writing, :math], top=1)
     subjects = [subjects] unless subjects.class == Array
     dists_results = {}

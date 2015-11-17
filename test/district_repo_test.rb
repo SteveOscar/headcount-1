@@ -87,7 +87,7 @@ class DistrictRepositoryTest < Minitest::Test
 
   def test_can_link_district_objects_to_newly_created_statewide_objects
     district = dr.find_by_name("ACADEMY 20")
-    assert_equal "ACADEMY 20", district.statewide_testing.district
+    assert_equal "ACADEMY 20", district.statewide_test.district
   end
 
   def test_can_handle_full_dataset_and_create_necessary_objects

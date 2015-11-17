@@ -63,7 +63,7 @@ module StatewideAnalytics
   end
 
   def district_change(grade, subject, district, weighting=nil)
-    years = dr.find_by_name(district).statewide_testing.test_data[grade]
+    years = dr.find_by_name(district).statewide_test.test_data[grade]
     array = years.map { |year| (year[1][subject]).to_f }
     differences = get_differences_between_years(array)
     subject_average = truncate((differences.reduce(:+) / differences.length))

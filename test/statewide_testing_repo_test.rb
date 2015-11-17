@@ -23,12 +23,12 @@ class StateWideTestRepoTest < Minitest::Test
   end
 
   def test_swtr_can_load_data_from_given_file
-    assert_equal "COLORADO", swtr.statewide_testing[0].district
-    assert_equal "ACADEMY 20", swtr.statewide_testing[1].district
+    assert_equal "COLORADO", swtr.statewide_test[0].district
+    assert_equal "ACADEMY 20", swtr.statewide_test[1].district
   end
 
   def test_swtr_creates_correct_number_of_objects_in_array
-    assert_equal 14, swtr.statewide_testing.length
+    assert_equal 14, swtr.statewide_test.length
   end
 
   def test_swtr_find_by_name_finds_object

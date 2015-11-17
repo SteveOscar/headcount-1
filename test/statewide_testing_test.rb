@@ -40,18 +40,19 @@ class StatewideTestTest < Minitest::Test
 
   def test_proficient_by_grade_returns_correct_data
     result = found.proficient_by_grade(3)
-    assert_equal data["COLORADO"], result
+    answer = {2008=>{:math=>0.697, :reading=>0.703, :writing=>0.501}, 2009=>{:math=>0.691, :reading=>0.726, :writing=>0.536}, 2010=>{:math=>0.706, :reading=>0.698, :writing=>0.504}, 2011=>{:math=>0.696, :reading=>0.728, :writing=>0.513}, 2012=>{:reading=>0.739, :math=>0.71, :writing=>0.525}, 2013=>{:math=>0.722, :reading=>0.732, :writing=>0.509}, 2014=>{:math=>0.715, :reading=>0.715, :writing=>0.51}}
+    assert_equal answer, result
   end
 
   def test_proficient_by_grade_8_returns_correct_data
     result = found.proficient_by_grade(8)
-    answer = {2008=>{:math=>0.469, :reading=>0.703, :writing=>0.529},
-             2009=>{:math=>0.499, :reading=>0.726, :writing=>0.528},
-             2010=>{:math=>0.51, :reading=>0.679, :writing=>0.549},
-             2011=>{:reading=>0.67, :math=>0.513, :writing=>0.543},
-             2012=>{:math=>0.515, :writing=>0.548, :reading=>0.671},
-             2013=>{:math=>0.51482, :reading=>0.66888, :writing=>0.55788},
-             2014=>{:math=>0.52385, :reading=>0.66351, :writing=>0.56183}}
+    answer = {2008=>{:math=>0.469, :reading=>0.703, :writing=>0.529}, 2009=>
+                    {:math=>0.499, :reading=>0.726, :writing=>0.528}, 2010=>
+                    {:math=>0.51, :reading=>0.679, :writing=>0.549}, 2011=>
+                    {:reading=>0.67, :math=>0.513, :writing=>0.543}, 2012=>
+                    {:math=>0.515, :writing=>0.548, :reading=>0.671}, 2013=>
+                    {:math=>0.514, :reading=>0.668, :writing=>0.557}, 2014=>
+                    {:math=>0.523, :reading=>0.663, :writing=>0.561}}
     assert_equal answer, result
   end
 
@@ -128,6 +129,11 @@ class StatewideTestTest < Minitest::Test
       found.proficient_for_subject_by_grade_in_year(:math, 1, 2011)
     end
   end
+
+  def test_proficient_for_subject_by_grade_in_year_yields_correct_data
+    assert_equal 0.513, found.proficient_for_subject_by_grade_in_year(:math, 8, 2011)
+  end
+
 
   def test_proficient_for_subject_by_race_in_year_yields_correct_data
     assert_equal 0.658, found.proficient_for_subject_by_race_in_year(:math, :white, 2011)

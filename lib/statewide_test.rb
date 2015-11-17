@@ -29,7 +29,15 @@ class StatewideTest
     truncate(key[1][race.to_s.capitalize].to_f)
   end
 
+  def truncate_hash_values(data)
+    test_data.each do |k, v|
+      data[k].each { |k, data| data.update(data){ |k, v| truncate(v) } }
+    end
+    data
+  end
+
   def proficient_by_grade(grade) ## we tested with 'COLORADO', but we need to specificy COLORADO?
+    truncate_hash_values(test_data)
     if grade == 3
       test_data[:third_grade]
     elsif grade == 8

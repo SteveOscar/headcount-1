@@ -43,7 +43,7 @@ class DistrictRepository
 
   def link_district_to_statewide_testing
     districts.each do |object|
-      object.statewide_testing = swtr.find_by_name(object.name)
+      object.statewide_test = swtr.find_by_name(object.name)
     end
   end
 

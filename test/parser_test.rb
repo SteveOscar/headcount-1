@@ -58,14 +58,14 @@ class ParserTest < Minitest::Test
 
   def test_test_parser_can_load_statewide_testing_data_and_parse_correctly
     data = test_parser.get_testing_data
-    answer = {"Math"=>0.696, "Reading"=>0.728, "Writing"=>0.513}
+    answer = {:math=>0.696, :reading=>0.728, :writing=>0.513}
     assert_equal answer, data["COLORADO"][2011]
   end
 
   def test_test_parser_can_load_statewide_data_and_pull_out_specific_data
     data = test_parser.get_testing_data
     answer = 0.54
-    assert_equal answer, data["ADAMS COUNTY 14"][2012]["Reading"]
+    assert_equal answer, data["ADAMS COUNTY 14"][2012][:reading]
   end
 
   def test_test_parser_can_load_multiple_districts

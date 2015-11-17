@@ -1,8 +1,8 @@
 require 'pry'
-require_relative 'statewide_testing'
+require_relative 'statewide_test'
 require_relative 'csv_parser_0'
 
-class StatewideTestingRepository
+class StatewideTestRepository
   attr_reader :parser
   attr_accessor :statewide_testing, :districts
 
@@ -27,7 +27,7 @@ class StatewideTestingRepository
 
   def create_statewide_testing_objects(grade, hash)
     @statewide_testing = hash.map do |name, statewide_testing|
-      StatewideTesting.new({district: name, grade => statewide_testing})
+      StatewideTest.new({district: name, grade => statewide_testing})
     end
     statewide_testing
   end

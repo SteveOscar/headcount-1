@@ -1,7 +1,7 @@
 require 'pry'
 require_relative 'error_classes'
 
-class StatewideTesting
+class StatewideTest
   attr_reader :district, :test_data, :grade
 
   def initialize(data)
@@ -44,9 +44,9 @@ class StatewideTesting
       raise UnknownRaceError.new
     else
       data = {}
-      test_data[:math].each { |key| data.merge!({ key[0] => {:math => data(race, key) }}) }
-      test_data[:reading].each { |key| data[key[0]].merge!({:reading => data(race, key) }) }
-      test_data[:writing].each { |key| data[key[0]].merge!({:writing => data(race, key) }) }
+      test_data[:math].each { |key| data.merge!({ key[0] => {:math => truncate(key[1][race]) }})}
+      test_data[:reading].each { |key| data[key[0]].merge!({:reading => truncate(key[1][race]) }) }
+      test_data[:writing].each { |key| data[key[0]].merge!({:writing => truncate(key[1][race]) }) }
     end
     data
   end
@@ -63,14 +63,14 @@ class StatewideTesting
     else
       raise UnknownDataError.new
     end
-    (test_data[grade][year][subject.to_s.capitalize]).to_f
+    (test_data[grade][year][subject]).to_f
   end
 
   def proficient_for_subject_by_race_in_year(subject, race, year)
     raise UnknownDataError.new if !subjects.include?(subject)
     raise UnknownDataError.new if !years.include?(year)
     raise UnknownDataError.new if !races.include?(race)
-    truncate((test_data[subject][year][race.to_s.capitalize]).to_f)
+    truncate((test_data[subject][year][race]).to_f)
   end
 
 end

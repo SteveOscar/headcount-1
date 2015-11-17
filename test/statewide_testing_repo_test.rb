@@ -1,21 +1,21 @@
 require 'minitest'
 require 'minitest/autorun'
 require 'minitest/pride'
-require './lib/statewide_testing_repository'
+require './lib/statewide_test_repository'
 require 'pry'
 
-class StateWideTestingRepoTest < Minitest::Test
+class StateWideTestRepoTest < Minitest::Test
 
   attr_reader :swtr
 
   def setup
-    @swtr = StatewideTestingRepository.new
+    @swtr = StatewideTestRepository.new
     @swtr.load_data({:statewide_testing => {
             :third_grade => "./test/fixtures/sample_3rd_grade_data.csv"}})
   end
 
   def test_can_instantiate_statewide_testing_repo_object
-    assert StatewideTestingRepository.new
+    assert StatewideTestRepository.new
   end
 
   def test_can_load_given_dataset

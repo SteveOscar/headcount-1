@@ -1,7 +1,7 @@
 require 'minitest'
 require 'minitest/autorun'
 require 'minitest/pride'
-require './lib/statewide_testing_repo'
+require './lib/statewide_testing_repository'
 require 'pry'
 
 class StateWideTestingRepoTest < Minitest::Test
@@ -9,13 +9,13 @@ class StateWideTestingRepoTest < Minitest::Test
   attr_reader :swtr
 
   def setup
-    @swtr = StatewideTestingRepo.new
+    @swtr = StatewideTestingRepository.new
     @swtr.load_data({:statewide_testing => {
             :third_grade => "./test/fixtures/sample_3rd_grade_data.csv"}})
   end
 
   def test_can_instantiate_statewide_testing_repo_object
-    assert StatewideTestingRepo.new
+    assert StatewideTestingRepository.new
   end
 
   def test_can_load_given_dataset
@@ -67,13 +67,5 @@ class StateWideTestingRepoTest < Minitest::Test
     assert_equal "EAST GRAND 2", object[0].district
     assert_equal "EAST OTERO R-1", object[1].district
   end
-
-  # def test_can_take_in_multiple_data_sets_and_store_all
-  #   er.load_data({:enrollment => {:high_school_graduation => "./test/fixtures/sample_hs_graduation_data.csv"}})
-  #   object = er.find_by_name("COLORADO")
-  #   assert_equal "0.74118", object.enrollment_data[:kindergarten]["2014"]
-  #   assert_equal "0.773", object.enrollment_data[:high_school_graduation]["2014"]
-  # end
-
 
 end

@@ -2,13 +2,13 @@ require 'minitest'
 require 'minitest/autorun'
 require 'minitest/pride'
 require './lib/headcount_analyst'
-require './lib/district_repo'
+require './lib/district_repository'
 require 'pry'
 
 class HeadcountAnalystTest < Minitest::Test
   attr_reader :dr, :ha
   def setup
-    @dr = DistrictRepo.new
+    @dr = DistrictRepository.new
     @ha = HeadcountAnalyst.new(dr)
     dr.load_data({
                     :enrollment => {
@@ -50,12 +50,12 @@ class HeadcountAnalystTest < Minitest::Test
   end
 
   def test_kindergarten_participation_rate_variation_trend_with_state
-    answer = {"2007"=>0.992, "2006"=>1.05, "2005"=>0.961, "2004"=>1.258, "2008"=>0.718, "2009"=>0.652, "2010"=>0.681, "2011"=>0.728, "2012"=>0.689, "2013"=>0.694, "2014"=>0.661}
+    answer = {2007=>0.992, 2006=>1.05, 2005=>0.96, 2004=>1.257, 2008=>0.717, 2009=>0.652, 2010=>0.681, 2011=>0.727, 2012=>0.688, 2013=>0.694, 2014=>0.661}
     assert_equal answer, ha.kindergarten_participation_rate_variation_trend('ACADEMY 20', :against => 'COLORADO')
   end
 
   def test_kindergarten_participation_rate_variation_trend_with_district
-    answer = {"2007"=>1.278, "2006"=>1.206, "2005"=>0.89, "2004"=>1.325, "2008"=>0.571, "2009"=>0.39, "2010"=>0.436, "2011"=>0.489, "2012"=>0.479, "2013"=>0.489, "2014"=>0.49}
+    answer = {2007=>1.277, 2006=>1.205, 2005=>0.89, 2004=>1.324, 2008=>0.571, 2009=>0.39, 2010=>0.436, 2011=>0.489, 2012=>0.478, 2013=>0.488, 2014=>0.49}
     assert_equal answer, ha.kindergarten_participation_rate_variation_trend('ACADEMY 20', :against => 'ADAMS COUNTY 14')
   end
 
@@ -85,19 +85,77 @@ class HeadcountAnalystTest < Minitest::Test
   end
 
   def test_district_change_results_for_all_districts
-    result = ha.top_statewide_test_year_over_year_growth(:third_grade, :math)
+    result = ha.top_statewide_test_year_over_year_growth(grade: 3, subject: :math)
     assert_equal ["SPRINGFIELD RE-4", 0.149], result
   end
 
   def test_district_change_results_for_all_districts_top_3
-    result = ha.top_statewide_test_year_over_year_growth(:third_grade, :math, 3)
+    result = ha.top_statewide_test_year_over_year_growth(grade: 3, top: 3, subject: :math)
     assert_equal 3, result.size
     assert_equal [["SPRINGFIELD RE-4", 0.149], ["WESTMINSTER 50", 0.1], ["CENTENNIAL R-1", 0.088]], result
   end
 
   def test_can_get_districts_list_with_averaged_growth_per_subject
-    result = ha.top_statewide_test_year_over_year_growth(:third_grade)
+    result = ha.top_statewide_test_year_over_year_growth(grade: 3)
   end
 
+  def test_format_argument_to_proper_format_for_grade
+    result1 = ha.format_grade_argument(3)
+    result2 = ha.format_grade_argument(8)
+    assert_equal :third_grade, result1
+    assert_equal :eigth_grade, result2
+  end
+
+  def test_formatted_arguments_work_in_top_statewide_method
+    result = ha.top_statewide_test_year_over_year_growth(grade: 3, subject: :math)
+    assert_equal ["SPRINGFIELD RE-4", 0.149], result
+  end
+
+  def test_statewide_test_year_over_year_top_3_integration
+    result = ha.top_statewide_test_year_over_year_growth(grade: 3, top: 3, subject: :math)
+    answer = [["SPRINGFIELD RE-4", 0.149], ["WESTMINSTER 50", 0.1], ["CENTENNIAL R-1", 0.088]] #confirm data
+    assert_equal answer, result
+  end
+
+  def test_raises_error_if_no_grade_is_provided
+    e = assert_raises InsufficientInformationError do
+      ha.top_statewide_test_year_over_year_growth(top: 3, subject: :math)
+    end
+
+    assert_equal "A grade must be provided to answer this question", e.message
+  end
+
+  def test_raises_error_if_unknown_grade_is_provided
+    e = assert_raises UnknownDataError do
+      ha.top_statewide_test_year_over_year_growth(grade: 9, subject: :math)
+    end
+    assert_equal "9 is not a known grade", e.message
+  end
+
+  def test_passing_in_argument_with_subject_weighting
+    result = {grade: 8, :weighting => {:math => 0.5, :reading => 0.5, :writing => 0.0}}
+    weighting = {:math => 0.5, :reading => 0.5, :writing => 0.0}
+    assert_equal weighting, ha.get_weighting_hash(result)
+  end
+
+  def test_weighting_method_can_pass_information_to_district_change_method
+    answer = district_change(:eigth_grade, :math, "ACADEMY 20", {:math => 0.5, :reading => 0.5, :writing => 0.0})
+
+    assert_equal 0.035, answer
+  end
+
+  def test_subject_weighting_integration
+    result = ha.top_statewide_test_year_over_year_growth(grade: 8, :weighting => {:math => 0.5, :reading => 0.5, :writing => 0.0})
+    assert_equal ["PLATEAU RE-5", 0.101], result
+  end
+
+  def test_produces_different_results_depending_on_weighting
+    result_weighted = ha.top_statewide_test_year_over_year_growth(grade: 8, :weighting => {:math => 0.5, :reading => 0.5, :writing => 0.0})
+    result_non_weighted = ha.top_statewide_test_year_over_year_growth(grade: 8)
+    result_heavy_weighting = ha.top_statewide_test_year_over_year_growth(grade: 8, :weighting => {:math => 0.05, :reading => 0.05, :writing => 0.9})
+    assert_equal ["PLATEAU RE-5", 0.101], result_weighted
+    assert_equal ["PLATEAU RE-5", 0.092], result_non_weighted
+    assert_equal ["ASPEN 1", 0.113], result_heavy_weighting
+  end
 
 end

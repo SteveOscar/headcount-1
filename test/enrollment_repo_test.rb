@@ -1,7 +1,7 @@
 require 'minitest'
 require 'minitest/autorun'
 require 'minitest/pride'
-require './lib/enrollment_repo'
+require './lib/enrollment_repository'
 require 'pry'
 require './lib/district'
 
@@ -9,7 +9,7 @@ class EnrollmentRepoTest < Minitest::Test
 
   attr_reader :er
   def setup
-    @er = EnrollmentRepo.new
+    @er = EnrollmentRepository.new
     er.load_data({:enrollment => {:kindergarten => "./test/fixtures/sample_kindergarten_data.csv"}})
   end
 
@@ -71,8 +71,8 @@ class EnrollmentRepoTest < Minitest::Test
   def test_can_take_in_multiple_data_sets_and_store_all
     er.load_data({:enrollment => {:high_school_graduation => "./test/fixtures/sample_hs_graduation_data.csv"}})
     object = er.find_by_name("COLORADO")
-    assert_equal "0.74118", object.enrollment_data[:kindergarten]["2014"]
-    assert_equal "0.773", object.enrollment_data[:high_school_graduation]["2014"]
+    assert_equal 0.74118, object.enrollment_data[:kindergarten][2014]
+    assert_equal 0.773, object.enrollment_data[:high_school_graduation][2014]
   end
 
 end

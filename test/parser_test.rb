@@ -47,7 +47,7 @@ class ParserTest < Minitest::Test
 
   def test_get_enrollment_creates_a_hash_and_updates_already_existing_district
     enrollment = parser.get_enrollment
-    answer = {"2010"=>"1", "2011"=>"1"}
+    answer = {2010=>1, 2011=>1}
     assert_equal answer, enrollment["ADAMS COUNTY 14"]
   end
 
@@ -58,14 +58,14 @@ class ParserTest < Minitest::Test
 
   def test_test_parser_can_load_statewide_testing_data_and_parse_correctly
     data = test_parser.get_testing_data
-    answer = {"Math"=>"0.696", "Reading"=>"0.728", "Writing"=>"0.513"}
-    assert_equal answer, data["COLORADO"]["2011"]
+    answer = {"Math"=>0.696, "Reading"=>0.728, "Writing"=>0.513}
+    assert_equal answer, data["COLORADO"][2011]
   end
 
   def test_test_parser_can_load_statewide_data_and_pull_out_specific_data
     data = test_parser.get_testing_data
-    answer = "0.54"
-    assert_equal answer, data["ADAMS COUNTY 14"]["2012"]["Reading"]
+    answer = 0.54
+    assert_equal answer, data["ADAMS COUNTY 14"][2012]["Reading"]
   end
 
   def test_test_parser_can_load_multiple_districts

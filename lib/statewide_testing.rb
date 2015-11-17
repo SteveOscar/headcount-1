@@ -1,4 +1,5 @@
 require 'pry'
+require_relative 'error_classes'
 
 class StatewideTesting
   attr_reader :district, :test_data, :grade
@@ -19,6 +20,9 @@ class StatewideTesting
   def subjects
     [:math, :reading, :writing]
   end
+  def truncate(num)
+    (num * 1000).floor / 1000.0
+  end
 
   def proficient_by_grade(grade) ## we tested with 'COLORADO', but we need to specificy COLORADO?
     if grade == 3
@@ -32,7 +36,7 @@ class StatewideTesting
 
   def proficient_by_race_or_ethnicity(race)
     if !races.include?(race)
-      raise UnknownDataError.new
+      raise UnknownRaceError.new
     else
       data = {}
       test_data[:math].each { |key| data.merge!({ key[0] => {:math => data(race, key) }}) }
@@ -43,7 +47,7 @@ class StatewideTesting
   end
 
   def data(race, key)
-    key[1][race.to_s.capitalize].to_f.round(3)
+    truncate(key[1][race.to_s.capitalize].to_f)
   end
 
   def proficient_for_subject_by_grade_in_year(subject, grade, year)
@@ -58,34 +62,14 @@ class StatewideTesting
     else
       raise UnknownDataError.new
     end
-    (test_data[grade][year.to_s][subject.to_s.capitalize]).to_f
+    (test_data[grade][year][subject.to_s.capitalize]).to_f
   end
 
   def proficient_for_subject_by_race_in_year(subject, race, year)
     raise UnknownDataError.new if !subjects.include?(subject)
     raise UnknownDataError.new if !years.include?(year)
     raise UnknownDataError.new if !races.include?(race)
-    (test_data[subject][year.to_s][race.to_s.capitalize]).to_f.round(3)
+    truncate((test_data[subject][year][race.to_s.capitalize]).to_f)
   end
 
 end
-
-class UnknownDataError < StandardError
-end
-
-# def proficient_by_race_or_ethnicity(race)
-#   ## raise error if race != [:asian, :black, :pacific_islander, :hispanic, :native_american, :two_or_more, :white]
-#   data = {}
-#   test_data[:math].each do |key|
-#     binding.pry
-#     data.merge!({ key[0] => {:math => key[1][race.to_s.capitalize].to_f.round(3) }})
-#   end
-#   test_data[:reading].each { |key| add_data(key, data, race) }
-#   test_data[:writing].each { |key| add_data(key, data, race) }
-#   binding.pry
-#   data
-# end
-#
-# def add_data(key, data, race)
-#   data[key[0]].merge!({:reading => key[1][race.to_s.capitalize].to_f.round(3) })
-# end

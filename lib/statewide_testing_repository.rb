@@ -2,7 +2,7 @@ require 'pry'
 require_relative 'statewide_testing'
 require_relative 'csv_parser_0'
 
-class StatewideTestingRepo
+class StatewideTestingRepository
   attr_reader :parser
   attr_accessor :statewide_testing, :districts
 

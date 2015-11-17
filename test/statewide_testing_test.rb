@@ -2,7 +2,7 @@ require 'minitest'
 require 'minitest/autorun'
 require 'minitest/pride'
 require './lib/statewide_testing'
-require './lib/statewide_testing_repo'
+require './lib/statewide_testing_repository'
 require 'pry'
 
 class StatewideTestingTest < Minitest::Test
@@ -10,15 +10,15 @@ class StatewideTestingTest < Minitest::Test
 
   def setup
     @data = {"COLORADO"=>
-            {"2008"=>{"Math"=>"0.697", "Reading"=>"0.703", "Writing"=>"0.501"},
-             "2009"=>{"Math"=>"0.691", "Reading"=>"0.726", "Writing"=>"0.536"},
-             "2010"=>{"Math"=>"0.706", "Reading"=>"0.698", "Writing"=>"0.504"},
-             "2011"=>{"Math"=>"0.696", "Reading"=>"0.728", "Writing"=>"0.513"},
-             "2012"=>{"Reading"=>"0.739", "Math"=>"0.71", "Writing"=>"0.525"},
-             "2013"=>{"Math"=>"0.72295", "Reading"=>"0.73256", "Writing"=>"0.50947"},
-             "2014"=>{"Math"=>"0.71589", "Reading"=>"0.71581", "Writing"=>"0.51072"}}}
+            {2008=>{"Math"=>0.697, "Reading"=>0.703, "Writing"=>0.501},
+             2009=>{"Math"=>0.691, "Reading"=>0.726, "Writing"=>0.536},
+             2010=>{"Math"=>0.706, "Reading"=>0.698, "Writing"=>0.504},
+             2011=>{"Math"=>0.696, "Reading"=>0.728, "Writing"=>0.513},
+             2012=>{"Reading"=>0.739, "Math"=>0.71, "Writing"=>0.525},
+             2013=>{"Math"=>0.72295, "Reading"=>0.73256, "Writing"=>0.50947},
+             2014=>{"Math"=>0.71589, "Reading"=>0.71581, "Writing"=>0.51072}}}
     @sw = StatewideTesting.new(data)
-    @swtr = StatewideTestingRepo.new
+    @swtr = StatewideTestingRepository.new
     @swtr.load_data(:statewide_testing => {
     :third_grade => "./data/3rd grade students scoring proficient or above on the CSAP_TCAP.csv", :eigth_grade => "./data/8th grade students scoring proficient or above on the CSAP_TCAP.csv",
     :math => "./test/fixtures/sample_proficiency_CSAP_.csv", :reading => "./test/fixtures/sample_proficiency_reading.csv", :writing => "./test/fixtures/sample_proficiency_writing.csv"})
@@ -45,13 +45,13 @@ class StatewideTestingTest < Minitest::Test
 
   def test_proficient_by_grade_8_returns_correct_data
     result = found.proficient_by_grade(8)
-    answer = {"2008"=>{"Math"=>"0.469", "Reading"=>"0.703", "Writing"=>"0.529"},
-             "2009"=>{"Math"=>"0.499", "Reading"=>"0.726", "Writing"=>"0.528"},
-             "2010"=>{"Math"=>"0.51", "Reading"=>"0.679", "Writing"=>"0.549"},
-             "2011"=>{"Reading"=>"0.67", "Math"=>"0.513", "Writing"=>"0.543"},
-             "2012"=>{"Math"=>"0.515", "Writing"=>"0.548", "Reading"=>"0.671"},
-             "2013"=>{"Math"=>"0.51482", "Reading"=>"0.66888", "Writing"=>"0.55788"},
-             "2014"=>{"Math"=>"0.52385", "Reading"=>"0.66351", "Writing"=>"0.56183"}}
+    answer = {2008=>{"Math"=>0.469, "Reading"=>0.703, "Writing"=>0.529},
+             2009=>{"Math"=>0.499, "Reading"=>0.726, "Writing"=>0.528},
+             2010=>{"Math"=>0.51, "Reading"=>0.679, "Writing"=>0.549},
+             2011=>{"Reading"=>0.67, "Math"=>0.513, "Writing"=>0.543},
+             2012=>{"Math"=>0.515, "Writing"=>0.548, "Reading"=>0.671},
+             2013=>{"Math"=>0.51482, "Reading"=>0.66888, "Writing"=>0.55788},
+             2014=>{"Math"=>0.52385, "Reading"=>0.66351, "Writing"=>0.56183}}
     assert_equal answer, result
   end
 
@@ -62,13 +62,13 @@ class StatewideTestingTest < Minitest::Test
 
   def test_proficient_by_race_or_ethnicity_with_hispanic
     result = found.proficient_by_race_or_ethnicity(:hispanic)
-    data = ["2011", {:math=>0.393, :reading=>0.498, :writing=>0.368}]
+    data = [2011, {:math=>0.392, :reading=>0.498, :writing=>0.368}]
     assert_equal data, result.first
   end
 
   def test_proficient_by_race_or_ethnicity_with_white
     result = found.proficient_by_race_or_ethnicity(:white)
-    data = ["2011", {:math=>0.659, :reading=>0.789, :writing=>0.663}]
+    data = [2011, {:math=>0.658, :reading=>0.789, :writing=>0.663}]
     assert_equal data, result.first
   end
 
@@ -95,7 +95,7 @@ class StatewideTestingTest < Minitest::Test
   end
 
   def test_proficient_by_race_raises_an_error_with_unknown_grade_argument
-    assert_raises UnknownDataError do
+    assert_raises UnknownRaceError do
       found.proficient_by_race_or_ethnicity(:yellow)
     end
   end
@@ -130,7 +130,7 @@ class StatewideTestingTest < Minitest::Test
   end
 
   def test_proficient_for_subject_by_race_in_year_yields_correct_data
-    assert_equal 0.659, found.proficient_for_subject_by_race_in_year(:math, :white, 2011)
+    assert_equal 0.658, found.proficient_for_subject_by_race_in_year(:math, :white, 2011)
   end
 
   def test_proficient_for_subject_by_race_in_year_recognizes_wrong_data_race_input

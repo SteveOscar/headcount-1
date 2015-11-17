@@ -20,6 +20,9 @@ class StatewideTesting
   def subjects
     [:math, :reading, :writing]
   end
+  def truncate(num)
+    (num * 1000).floor / 1000.0
+  end
 
   def proficient_by_grade(grade) ## we tested with 'COLORADO', but we need to specificy COLORADO?
     if grade == 3
@@ -44,7 +47,7 @@ class StatewideTesting
   end
 
   def data(race, key)
-    key[1][race.to_s.capitalize].to_f.round(3)
+    truncate(key[1][race.to_s.capitalize].to_f)
   end
 
   def proficient_for_subject_by_grade_in_year(subject, grade, year)
@@ -59,14 +62,14 @@ class StatewideTesting
     else
       raise UnknownDataError.new
     end
-    (test_data[grade][year.to_s][subject.to_s.capitalize]).to_f
+    (test_data[grade][year][subject.to_s.capitalize]).to_f
   end
 
   def proficient_for_subject_by_race_in_year(subject, race, year)
     raise UnknownDataError.new if !subjects.include?(subject)
     raise UnknownDataError.new if !years.include?(year)
     raise UnknownDataError.new if !races.include?(race)
-    (test_data[subject][year.to_s][race.to_s.capitalize]).to_f.round(3)
+    truncate((test_data[subject][year][race.to_s.capitalize]).to_f)
   end
 
 end

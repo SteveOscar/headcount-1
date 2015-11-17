@@ -74,7 +74,7 @@ module StatewideAnalytics
     years = dr.find_by_name(district).statewide_testing.test_data[grade]
     array = years.map { |year| (year[1][subject.to_s.capitalize]).to_f }
     differences = get_differences_between_years(array)
-    (differences.reduce(:+) / differences.length).round(3)
+    truncate((differences.reduce(:+) / differences.length))
   end
 
   def get_differences_between_years(array)
@@ -86,5 +86,9 @@ module StatewideAnalytics
       break if i == array.size
     end
     differences
+  end
+
+  def truncate(num)
+    (num * 1000).floor / 1000.0
   end
 end

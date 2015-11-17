@@ -25,6 +25,6 @@ class HeadcountAnalyst
   def find_variation(initial, comparison, grade)
     num = average_values(initial.enrollment.enrollment_data[grade])
     dem = average_values(comparison.enrollment.enrollment_data[grade])
-    (num / dem).round(3)
+    truncate((num / dem))
   end
 end

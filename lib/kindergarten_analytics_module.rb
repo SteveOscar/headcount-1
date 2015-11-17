@@ -4,7 +4,7 @@ module KindergartenAnalytics
       answers = {}
       initial = dr.find_by_name(district).enrollment.enrollment_data.values.first
       comparison = dr.find_by_name(compared_to.values.join).enrollment.enrollment_data.values.first
-      initial.each { |k, v| answers[k] = (v.to_f / comparison[k].to_f).round(3) }
+      initial.each { |k, v| answers[k] = truncate((v.to_f / comparison[k].to_f)) }
       answers
     end
 
@@ -12,7 +12,7 @@ module KindergartenAnalytics
       kindergarten_variation = kindergarten_participation_rate_variation(district, :against => "COLORADO")
       initial = dr.find_by_name(district)
       comparison = dr.find_by_name("COLORADO")
-      (kindergarten_variation / (find_variation(initial, comparison, :high_school_graduation))).round(3)
+      truncate((kindergarten_variation / (find_variation(initial, comparison, :high_school_graduation))))
     end
 
     def district_rate_shows_correlation?(rate)
@@ -41,5 +41,9 @@ module KindergartenAnalytics
     def statewide_kindergarten_rates_show_correlation?
       rate = kindergarten_participation_against_high_school_graduation("COLORADO")
       rate >= 0.7
+    end
+
+    def truncate(num)
+      (num * 1000).floor / 1000.0
     end
 end

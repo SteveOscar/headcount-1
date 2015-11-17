@@ -44,7 +44,7 @@ class EnrollmentTest < Minitest::Test
   def test_graduation_rate_by_year_method_works
     er.load_data({:enrollment => {:high_school_graduation => "./test/fixtures/sample_hs_graduation_data.csv"}})
     e = er.find_by_name("COLORADO")
-    result = {"2011"=>"0.739", "2012"=>"0.75354", "2013"=>"0.769", "2014"=>"0.773"}
+    result = {2011=>0.739, 2012=>0.75354, 2013=>0.769, 2014=>0.773}
     assert_equal result, e.graduation_rate_by_year
   end
 

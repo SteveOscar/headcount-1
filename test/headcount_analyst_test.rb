@@ -99,11 +99,25 @@ class HeadcountAnalystTest < Minitest::Test
     result = ha.top_statewide_test_year_over_year_growth(grade: 3)
   end
 
-  def test_format_argument_to_proper_format_for_grade
-    result1 = ha.format_grade_argument(3)
-    result2 = ha.format_grade_argument(8)
+  def test_format_grade_argument_to_proper_format
+    result1 = ha.format_grade(3)
+    result2 = ha.format_grade(8)
     assert_equal :third_grade, result1
     assert_equal :eigth_grade, result2
+  end
+
+  def test_format_top_argument_to_proper_format
+    result1 = ha.format_top(grade: 8, top: 3)
+    result2 = ha.format_top(grade: 8)
+    assert_equal 3, result1
+    assert_equal 1, result2
+  end
+
+  def test_format_subject_argument_to_proper_format
+    result1 = ha.format_subject(subject: :math)
+    result2 = ha.format_subject(subject: :reading)
+    assert_equal [:math], result1
+    assert_equal [:reading], result2
   end
 
   def test_formatted_arguments_work_in_top_statewide_method

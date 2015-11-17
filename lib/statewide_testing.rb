@@ -20,8 +20,13 @@ class StatewideTesting
   def subjects
     [:math, :reading, :writing]
   end
+
   def truncate(num)
     (num * 1000).floor / 1000.0
+  end
+
+  def data(race, key)
+    truncate(key[1][race.to_s.capitalize].to_f)
   end
 
   def proficient_by_grade(grade) ## we tested with 'COLORADO', but we need to specificy COLORADO?
@@ -44,10 +49,6 @@ class StatewideTesting
       test_data[:writing].each { |key| data[key[0]].merge!({:writing => data(race, key) }) }
     end
     data
-  end
-
-  def data(race, key)
-    truncate(key[1][race.to_s.capitalize].to_f)
   end
 
   def proficient_for_subject_by_grade_in_year(subject, grade, year)

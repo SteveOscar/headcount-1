@@ -39,11 +39,11 @@ class StatewideTestingRepository
   end
 
   def find_by_name(string)
-    statewide_testing.find { |object| object.district == string.to_s.upcase }
+    statewide_testing.find {|object| object.district == string.to_s.upcase}
   end
 
   def find_all_matching(string)
-    statewide_testing.find_all { |object| object.district.include?(string.upcase) }
+    statewide_testing.find_all {|object| object.district.include?(string.upcase)}
   end
 
 end

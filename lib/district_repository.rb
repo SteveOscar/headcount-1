@@ -3,13 +3,15 @@ require_relative 'district'
 require_relative 'csv_parser_0'
 require_relative 'enrollment_repository'
 require_relative 'statewide_testing_repository'
+require_relative 'economic_profile_repository'
 
 class DistrictRepository
-  attr_accessor :districts, :er, :parser, :swtr, :test_parser
+  attr_accessor :districts, :er, :parser, :swtr, :test_parser, :epr
 
   def initialize
     @swtr = StatewideTestingRepository.new
     @er = EnrollmentRepository.new
+    @epr = EconomicProfileRepository.new
     @parser = CSVParser.new
     @test_parser = TestingParser.new
   end
@@ -25,6 +27,10 @@ class DistrictRepository
         test_parser.load_data(given_data.values.first.values[0])
         swtr.load_data(given_data)
         link_district_to_statewide_testing
+      else
+        test_parser.load_data(given_data.values.first.values[0])
+        epr.load_data(given_data)
+        link_district_to_economic_profile
       end
     end
   end
@@ -38,6 +44,12 @@ class DistrictRepository
   def link_district_to_statewide_testing
     districts.each do |object|
       object.statewide_testing = swtr.find_by_name(object.name)
+    end
+  end
+
+  def link_district_to_economic_profile
+    districts.each do |object|
+      object.economic_profile = epr.find_by_name(object.name)
     end
   end
 

@@ -132,4 +132,30 @@ class HeadcountAnalystTest < Minitest::Test
     assert_equal "9 is not a known grade", e.message
   end
 
+  def test_passing_in_argument_with_subject_weighting
+    result = {grade: 8, :weighting => {:math => 0.5, :reading => 0.5, :writing => 0.0}}
+    weighting = {:math => 0.5, :reading => 0.5, :writing => 0.0}
+    assert_equal weighting, ha.get_weighting_hash(result)
+  end
+
+  def test_weighting_method_can_pass_information_to_district_change_method
+    answer = district_change(:eigth_grade, :math, "ACADEMY 20", {:math => 0.5, :reading => 0.5, :writing => 0.0})
+
+    assert_equal 0.035, answer
+  end
+
+  def test_subject_weighting_integration
+    result = ha.top_statewide_test_year_over_year_growth(grade: 8, :weighting => {:math => 0.5, :reading => 0.5, :writing => 0.0})
+    assert_equal ["PLATEAU RE-5", 0.101], result
+  end
+
+  def test_produces_different_results_depending_on_weighting
+    result_weighted = ha.top_statewide_test_year_over_year_growth(grade: 8, :weighting => {:math => 0.5, :reading => 0.5, :writing => 0.0})
+    result_non_weighted = ha.top_statewide_test_year_over_year_growth(grade: 8)
+    result_heavy_weighting = ha.top_statewide_test_year_over_year_growth(grade: 8, :weighting => {:math => 0.05, :reading => 0.05, :writing => 0.9})
+    assert_equal ["PLATEAU RE-5", 0.101], result_weighted
+    assert_equal ["PLATEAU RE-5", 0.092], result_non_weighted
+    assert_equal ["ASPEN 1", 0.113], result_heavy_weighting
+  end
+
 end

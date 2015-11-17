@@ -5,7 +5,6 @@ include StatewideAnalytics
 include KindergartenAnalytics
 
 class HeadcountAnalyst
-
   attr_reader :dr
 
   def initialize(dr = nil)

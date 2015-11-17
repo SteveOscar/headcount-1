@@ -5,87 +5,70 @@ require './lib/district_repository'
 require 'pry'
 
 class DistrictRepositoryTest < Minitest::Test
+  attr_reader :dr
+
+  def setup
+    @dr = DistrictRepository.new
+    dr.load_data({:enrollment => {:kindergarten => "./test/fixtures/sample_kindergarten_data.csv"}})
+  end
 
   def test_can_instatiate_district_repo
-    dr = DistrictRepository.new
-
     assert dr
   end
 
   def test_can_load_data_from_given_file
-    dr = DistrictRepository.new
-    dr.load_data({:enrollment => {:kindergarten => "./test/fixtures/sample_kindergarten_data.csv"}})
     assert_equal "COLORADO", dr.districts[0].name
     assert_equal "HI-PLAINS R-23", dr.districts[4].name
   end
 
   def test_creates_correct_number_of_objects_in_array
-    dr = DistrictRepository.new
-    dr.load_data({:enrollment => {:kindergarten => "./test/fixtures/sample_kindergarten_data.csv"}})
     assert_equal 8, dr.districts.length
   end
 
   def test_find_by_name_finds_object
-    dr = DistrictRepository.new
-    dr.load_data({:enrollment => {:kindergarten => "./test/fixtures/sample_kindergarten_data.csv"}})
     object = dr.find_by_name("ACADEMY 20")
     assert_equal "ACADEMY 20", object.name
   end
 
 
   def test_find_by_lowercase_name_finds_object
-    dr = DistrictRepository.new
-    dr.load_data({:enrollment => {:kindergarten => "./test/fixtures/sample_kindergarten_data.csv"}})
     object = dr.find_by_name("academy 20")
     assert_equal "ACADEMY 20", object.name
   end
 
   def test_find_by_name_returns_nil_if_no_object_matches
-    dr = DistrictRepository.new
-    dr.load_data({:enrollment => {:kindergarten => "./test/fixtures/sample_kindergarten_data.csv"}})
     object = dr.find_by_name("Steve Oscar Olson")
     assert_equal nil, object
   end
 
   def test_find_by_name_returns_nil_if_given_integers
-    dr = DistrictRepository.new
-    dr.load_data({:enrollment => {:kindergarten => "./test/fixtures/sample_kindergarten_data.csv"}})
     object = dr.find_by_name(3728)
     assert_equal nil, object
   end
 
   def test_find_by_name_returns_nil_if_given_array
-    dr = DistrictRepository.new
-    dr.load_data({:enrollment => {:kindergarten => "./test/fixtures/sample_kindergarten_data.csv"}})
     object = dr.find_by_name([3728])
     assert_equal nil, object
   end
 
   def test_find_all_matching_names_finds_objects
-    dr = DistrictRepository.new
-    dr.load_data({:enrollment => {:kindergarten => "./test/fixtures/sample_kindergarten_data.csv"}})
     object = dr.find_all_matching("ADAMS COUNTY")
     assert_equal "ADAMS COUNTY 14", object[0].name
     assert_equal "ADAMS COUNTY 15", object[1].name
   end
 
   def test_find_all_matching_names_finds_objects_with_lowercase
-    dr = DistrictRepository.new
-    dr.load_data({:enrollment => {:kindergarten => "./test/fixtures/sample_kindergarten_data.csv"}})
     object = dr.find_all_matching("adams county")
     assert_equal "ADAMS COUNTY 14", object[0].name
     assert_equal "ADAMS COUNTY 15", object[1].name
   end
 
   def test_can_link_district_objects_to_newly_created_enrollment_objects
-    dr = DistrictRepository.new
-    dr.load_data({:enrollment => {:kindergarten => "./test/fixtures/sample_kindergarten_data.csv"}})
     district = dr.find_by_name("ACADEMY 20")
     assert_equal "ACADEMY 20", district.enrollment.district
   end
 
   def test_can_handle_full_dataset_and_create_necessary_objects
-    dr = DistrictRepository.new
     dr.load_data({:enrollment => {:kindergarten => "./data/kindergartners in full-day program.csv"}})
     district = dr.find_by_name("ACADEMY 20")
     assert_equal "ACADEMY 20", district.enrollment.district
@@ -96,21 +79,18 @@ class DistrictRepositoryTest < Minitest::Test
   end
 
   def test_can_load_high_school_data
-    dr = DistrictRepository.new
     dr.load_data({:enrollment => {:high_school_graduation => "./test/fixtures/sample_hs_graduation_data.csv"}})
     district = dr.find_by_name("ACADEMY 20")
     assert_equal "ACADEMY 20", district.enrollment.district
   end
 
   def test_can_load_two_data_sets_of_different_classes
-    dr = DistrictRepository.new
     dr.load_data({:enrollment => {:high_school_graduation => "./test/fixtures/sample_hs_graduation_data.csv"}, :statewide_testing => {:third_grade => "./test/fixtures/sample_3rd_grade_data.csv"}})
     district = dr.find_by_name("ACADEMY 20")
     assert_equal "ACADEMY 20", district.enrollment.district
   end
 
   def test_can_load_all_releveant_data_files_intergration_test
-    dr = DistrictRepository.new
     dr.load_data({:enrollment => {:high_school_graduation => "./data/High school graduation rates.csv", :kindergarten => "./data/kindergartners in full-day program.csv"},
     :statewide_testing => {
     :third_grade => "./data/3rd grade students scoring proficient or above on the CSAP_TCAP.csv",

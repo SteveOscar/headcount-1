@@ -30,12 +30,16 @@ module KindergartenAnalytics
       elsif hash.keys == [:for]
         district_kindergarten_participation_correlated_with_high_school_graduation?(hash[:for])
       else
-        districts = hash[:across]
-        correlated_districts = districts.select do |d|
-          district_kindergarten_participation_correlated_with_high_school_graduation?(d)
-        end
-        correlated_districts.count / districts.count.to_f >= 0.7
+        get_range(hash)
       end
+    end
+
+    def get_range(hash)
+      districts = hash[:across]
+      correlated_districts = districts.select do |d|
+        district_kindergarten_participation_correlated_with_high_school_graduation?(d)
+      end
+      correlated_districts.count / districts.count.to_f >= 0.7
     end
 
     def statewide_kindergarten_rates_show_correlation?

@@ -6,7 +6,7 @@ require './lib/statewide_test_repository'
 require 'pry'
 
 class StatewideTestTest < Minitest::Test
-  attr_reader :sw, :data, :found
+  attr_reader :sw, :data, :found, :swtr
 
   def setup
     @data = {"COLORADO"=>
@@ -131,9 +131,16 @@ class StatewideTestTest < Minitest::Test
   end
 
   def test_proficient_for_subject_by_grade_in_year_yields_correct_data
-    assert_equal 0.513, found.proficient_for_subject_by_grade_in_year(:math, 8, 2011)
-  end
+    testing = swtr.find_by_name("ACADEMY 20")
 
+      assert_equal 0.653, testing.proficient_for_subject_by_grade_in_year(:math, 8, 2011)
+
+      testing = swtr.find_by_name("WRAY SCHOOL DISTRICT RD-2")
+      assert_equal 0.89, testing.proficient_for_subject_by_grade_in_year(:reading, 3, 2014)
+
+      testing = swtr.find_by_name("PLATEAU VALLEY 50")
+      assert_equal "N/A", testing.proficient_for_subject_by_grade_in_year(:reading, 8, 2011)
+    end
 
   def test_proficient_for_subject_by_race_in_year_yields_correct_data
     assert_equal 0.658, found.proficient_for_subject_by_race_in_year(:math, :white, 2011)

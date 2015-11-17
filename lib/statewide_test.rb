@@ -71,7 +71,7 @@ class StatewideTest
     else
       raise UnknownDataError.new
     end
-    (test_data[grade][year][subject]).to_f
+    truncate((test_data[grade][year][subject]).to_f)
   end
 
   def proficient_for_subject_by_race_in_year(subject, race, year)

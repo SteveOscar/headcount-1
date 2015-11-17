@@ -27,6 +27,8 @@ module StatewideAnalytics
     dists_results
   end
 
+  #:weighting => {:math = 0.5, :reading => 0.5, :writing => 0.0}
+
   def top_statewide_test_year_over_year_growth(arguments)
     raise InsufficientInformationError.new, 'A grade must be provided to answer this question' unless arguments.has_key?(:grade)
     raise UnknownDataError.new, "#{arguments[:grade]} is not a known grade" unless arguments[:grade] == 3 || arguments[:grade] == 8

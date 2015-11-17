@@ -62,13 +62,13 @@ class StatewideTestingTest < Minitest::Test
 
   def test_proficient_by_race_or_ethnicity_with_hispanic
     result = found.proficient_by_race_or_ethnicity(:hispanic)
-    data = [2011, {:math=>0.393, :reading=>0.498, :writing=>0.368}]
+    data = [2011, {:math=>0.392, :reading=>0.498, :writing=>0.368}]
     assert_equal data, result.first
   end
 
   def test_proficient_by_race_or_ethnicity_with_white
     result = found.proficient_by_race_or_ethnicity(:white)
-    data = [2011, {:math=>0.659, :reading=>0.789, :writing=>0.663}]
+    data = [2011, {:math=>0.658, :reading=>0.789, :writing=>0.663}]
     assert_equal data, result.first
   end
 
@@ -130,7 +130,7 @@ class StatewideTestingTest < Minitest::Test
   end
 
   def test_proficient_for_subject_by_race_in_year_yields_correct_data
-    assert_equal 0.659, found.proficient_for_subject_by_race_in_year(:math, :white, 2011)
+    assert_equal 0.658, found.proficient_for_subject_by_race_in_year(:math, :white, 2011)
   end
 
   def test_proficient_for_subject_by_race_in_year_recognizes_wrong_data_race_input

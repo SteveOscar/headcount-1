@@ -3,16 +3,19 @@ require_relative 'economic_profile'
 require_relative 'csv_parser_0'
 
 class EconomicProfileRepository
-  attr_reader :parser, :test_parser
+  attr_reader :parser, :test_parser, :economic_parser
   attr_accessor :economic_profile, :districts
 
   def initialize
     @parser = CSVParser.new
     @test_parser = TestingParser.new
+    @economic_parser = EconomicParser.new
   end
 
   def load_data(given_data)
     given_data[:economic_profile].each do |data_type, percentages_data|
+      binding.pry
+      economic_parser.load_data(percentages_data) if data_type.to_s.include?("income")
       test_parser.load_data(percentages_data) if data_type.to_s.include?("lunch")
       parser.load_data(percentages_data) unless data_type.to_s.include?("lunch")
       check_for_existing_objects(data_type)

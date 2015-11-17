@@ -164,12 +164,15 @@ class HeadcountAnalystTest < Minitest::Test
   end
 
   def test_produces_different_results_depending_on_weighting
+    spec_example = ha.top_statewide_test_year_over_year_growth(grade: 8, :weighting => {:math => 0.5, :reading => 0.5, :writing => 0.0})
     result_weighted = ha.top_statewide_test_year_over_year_growth(grade: 8, :weighting => {:math => 0.5, :reading => 0.5, :writing => 0.0})
     result_non_weighted = ha.top_statewide_test_year_over_year_growth(grade: 8)
     result_heavy_weighting = ha.top_statewide_test_year_over_year_growth(grade: 8, :weighting => {:math => 0.05, :reading => 0.05, :writing => 0.9})
+
     assert_equal ["PLATEAU RE-5", 0.101], result_weighted
     assert_equal ["PLATEAU RE-5", 0.092], result_non_weighted
     assert_equal ["ASPEN 1", 0.113], result_heavy_weighting
+    assert_equal ["OURAY R-1", 0.153], spec_example
   end
 
 end

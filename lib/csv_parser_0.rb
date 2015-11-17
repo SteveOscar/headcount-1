@@ -46,3 +46,23 @@ class TestingParser
   end
 
 end
+
+class EconomicParser
+  attr_accessor :csv_data
+
+  def load_data(path)
+    @csv_data = CSV.open(path, {:headers => true, header_converters: :symbol})
+  end
+
+  def get_income_data
+    data = {}
+    binding.pry
+    testing = @csv_data.readlines.each do |line|
+      binding.pry
+      data[(line[0].upcase)].merge!({line[:timeframe].to_sym => line[3].to_f}) if data.has_key?(line[0].upcase)
+      data[(line[0].upcase)] = { line[:timeframe].to_sym =>line[3].to_f } unless data.has_key?(line[0].upcase)#if data[line[0].upcase][line[2]]
+    end
+    data
+  end
+
+end

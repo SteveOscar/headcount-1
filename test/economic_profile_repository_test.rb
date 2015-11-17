@@ -20,6 +20,15 @@ class EconomicProfileRepositoryTest < Minitest::Test
   end
 
   def test_can_parse_data_correctly_for_economic_profile_objects
+    assert_equal "COLORADO", epr.economic_profile.first.district
+  end
+
+  def test_bla_bla
+    example = epr.find_by_name("ACADEMY 20")
+    example.estimated_median_household_income_in_year(2007)
 
   end
+
+
+
 end

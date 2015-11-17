@@ -14,6 +14,7 @@ class DistrictRepository
     @epr = EconomicProfileRepository.new
     @parser = CSVParser.new
     @test_parser = TestingParser.new
+    @economic_parser = EconomicParser.new
   end
 
   def load_data(given_data)
@@ -28,7 +29,7 @@ class DistrictRepository
         swtr.load_data(given_data)
         link_district_to_statewide_testing
       else
-        test_parser.load_data(given_data.values.first.values[0])
+        economic_parser.load_data(given_data.values.first.values[0])
         epr.load_data(given_data)
         link_district_to_economic_profile
       end

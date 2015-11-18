@@ -68,4 +68,11 @@ class EconomicProfileTest < Minitest::Test
     assert_equal 0.142, answer2
   end
 
+  def test_free_or_reduced_price_lunch_percentage_in_year
+    skip
+    example = epr.find_by_name("ACADEMY 20")
+    answer = example.free_or_reduced_price_lunch_percentage_in_year(2010)
+    assert_equal 87635.4, answer
+  end
+
 end

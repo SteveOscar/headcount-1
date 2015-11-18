@@ -30,6 +30,14 @@ class EconomicProfile
     economic_data[:children_in_poverty][year]
   end
 
+  def free_or_reduced_price_lunch_percentage_in_year(year)
+    binding.pry
+    raise UnknownDataError.new unless (2000..2014).include?(year)
+    binding.pry
+    economic_data[:free_or_reduced_price_lunch]
+
+  end
+
   def truncate(num)
     (num * 1000).floor / 1000.0
   end

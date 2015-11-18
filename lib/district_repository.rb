@@ -6,7 +6,7 @@ require_relative 'statewide_test_repository'
 require_relative 'economic_profile_repository'
 
 class DistrictRepository
-  attr_accessor :districts, :er, :parser, :swtr, :test_parser, :epr
+  attr_accessor :districts, :er, :parser, :swtr, :test_parser, :epr, :economic_parser
 
   def initialize
     @swtr = StatewideTestRepository.new

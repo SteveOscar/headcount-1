@@ -40,6 +40,11 @@ class EconomicProfile
     economic_data[:free_or_reduced_price_lunch]["Eligible for Free or Reduced Lunch"][year][:Number].to_i
   end
 
+  def title_i_in_year(year)
+    raise UnknownDataError.new unless [2009, 2011, 2012, 2013, 2014].include?(year)
+    economic_data[:title_i][year]
+  end
+
   def truncate(num)
     (num * 1000).floor / 1000.0
   end

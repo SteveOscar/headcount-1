@@ -80,4 +80,17 @@ class EconomicProfileTest < Minitest::Test
     assert_equal 2601, answer
   end
 
+  def test_title_i_in_year
+    example = epr.find_by_name("ACADEMY 20")
+    answer = example.title_i_in_year(2011)
+    assert_equal 0.011, answer
+  end
+
+  def test_title_i_in_year_raises_error_on_invalid_year
+    example = epr.find_by_name("ACADEMY 20")
+    assert_raises UnknownDataError do
+      answer = example.title_i_in_year(2010)
+    end
+  end
+
 end

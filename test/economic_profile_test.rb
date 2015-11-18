@@ -6,7 +6,7 @@ require './lib/economic_profile_repository'
 require 'pry'
 
 class EconomicProfileTest < Minitest::Test
-  attr_reader :epr
+  attr_reader :epr, :example
 
   def setup
     @epr = EconomicProfileRepository.new
@@ -17,6 +17,7 @@ class EconomicProfileTest < Minitest::Test
                     :free_or_reduced_price_lunch => "./data/Students qualifying for free or reduced price lunch.csv",
                     :title_i => "./data/Title I students.csv"
                     }})
+    @example = epr.find_by_name("ACADEMY 20")
   end
 
   def test_can_instantiate_district
@@ -35,7 +36,6 @@ class EconomicProfileTest < Minitest::Test
   end
 
   def test_estimated_median_household_income_in_year_method
-    example = epr.find_by_name("ACADEMY 20")
     answer = example.estimated_median_household_income_in_year(2007)
     assert_equal 51721.8, answer
   end
@@ -54,13 +54,11 @@ class EconomicProfileTest < Minitest::Test
   end
 
   def test_median_household_income_average
-    example = epr.find_by_name("ACADEMY 20")
     answer = example.median_household_income_average
     assert_equal 87635.4, answer
   end
 
   def test_children_in_poverty_in_year
-    example = epr.find_by_name("ACADEMY 20")
     example2 = epr.find_by_name("MONTROSE COUNTY RE-1J")
     answer = example.children_in_poverty_in_year(2004)
     answer2 = example2.children_in_poverty_in_year(2004)
@@ -69,25 +67,21 @@ class EconomicProfileTest < Minitest::Test
   end
 
   def test_free_or_reduced_price_lunch_percentage_in_year
-    example = epr.find_by_name("ACADEMY 20")
     answer = example.free_or_reduced_price_lunch_percentage_in_year(2010)
     assert_equal 0.113, answer
   end
 
   def test_free_or_reduced_price_lunch_number_in_year
-    example = epr.find_by_name("ACADEMY 20")
     answer = example.free_or_reduced_price_lunch_number_in_year(2010)
     assert_equal 2601, answer
   end
 
   def test_title_i_in_year
-    example = epr.find_by_name("ACADEMY 20")
     answer = example.title_i_in_year(2011)
     assert_equal 0.011, answer
   end
 
   def test_title_i_in_year_raises_error_on_invalid_year
-    example = epr.find_by_name("ACADEMY 20")
     assert_raises UnknownDataError do
       answer = example.title_i_in_year(2010)
     end

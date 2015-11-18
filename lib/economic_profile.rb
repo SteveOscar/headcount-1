@@ -19,9 +19,7 @@ class EconomicProfile
   end
 
   def median_household_income_average
-    total = economic_data[:median_household_income].map do |k, v|
-      v
-    end
+    total = economic_data[:median_household_income].map { |k, v| v }
     total.reduce(:+) / total.length
   end
 

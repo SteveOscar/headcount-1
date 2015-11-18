@@ -69,10 +69,15 @@ class EconomicProfileTest < Minitest::Test
   end
 
   def test_free_or_reduced_price_lunch_percentage_in_year
-    skip
     example = epr.find_by_name("ACADEMY 20")
     answer = example.free_or_reduced_price_lunch_percentage_in_year(2010)
-    assert_equal 87635.4, answer
+    assert_equal 0.113, answer
+  end
+
+  def test_free_or_reduced_price_lunch_number_in_year
+    example = epr.find_by_name("ACADEMY 20")
+    answer = example.free_or_reduced_price_lunch_number_in_year(2010)
+    assert_equal 2601, answer
   end
 
 end

@@ -31,11 +31,13 @@ class EconomicProfile
   end
 
   def free_or_reduced_price_lunch_percentage_in_year(year)
-    binding.pry
     raise UnknownDataError.new unless (2000..2014).include?(year)
-    binding.pry
-    economic_data[:free_or_reduced_price_lunch]
+    economic_data[:free_or_reduced_price_lunch]["Eligible for Free or Reduced Lunch"][year][:Percent]
+  end
 
+  def free_or_reduced_price_lunch_number_in_year(year)
+    raise UnknownDataError.new unless (2000..2014).include?(year)
+    economic_data[:free_or_reduced_price_lunch]["Eligible for Free or Reduced Lunch"][year][:Number].to_i
   end
 
   def truncate(num)

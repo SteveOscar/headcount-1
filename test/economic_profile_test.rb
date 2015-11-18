@@ -46,4 +46,26 @@ class EconomicProfileTest < Minitest::Test
     assert_equal 39487.6, answer
   end
 
+  def test_estimated_median_household_income_raises_unknown_data_error
+    example = epr.find_by_name("BOULDER VALLEY RE 2")
+    assert_raises UnknownDataError do
+      example.estimated_median_household_income_in_year(2004)
+    end
+  end
+
+  def test_median_household_income_average
+    example = epr.find_by_name("ACADEMY 20")
+    answer = example.median_household_income_average
+    assert_equal 87635.4, answer
+  end
+
+  def test_children_in_poverty_in_year
+    example = epr.find_by_name("ACADEMY 20")
+    example2 = epr.find_by_name("MONTROSE COUNTY RE-1J")
+    answer = example.children_in_poverty_in_year(2004)
+    answer2 = example2.children_in_poverty_in_year(2004)
+    assert_equal 0.034, answer
+    assert_equal 0.142, answer2
+  end
+
 end

@@ -56,11 +56,9 @@ class EconomicParser
 
   def get_income_data
     data = {}
-    binding.pry
     testing = @csv_data.readlines.each do |line|
-      binding.pry
-      data[(line[0].upcase)].merge!({line[:timeframe].to_sym => line[3].to_f}) if data.has_key?(line[0].upcase)
-      data[(line[0].upcase)] = { line[:timeframe].to_sym =>line[3].to_f } unless data.has_key?(line[0].upcase)#if data[line[0].upcase][line[2]]
+      data[(line[0].upcase)].merge!({[line[:timeframe][0..3].to_i, line[:timeframe][5..8].to_i] => line[3].to_f}) if data.has_key?(line[0].upcase)
+      data[(line[0].upcase)] = { [line[:timeframe][0..3].to_i, line[:timeframe][5..8].to_i] =>line[3].to_f } unless data.has_key?(line[0].upcase)#if data[line[0].upcase][line[2]]
     end
     data
   end

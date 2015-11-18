@@ -11,7 +11,10 @@ class EconomicProfile
   end
 
   def estimated_median_household_income_in_year(year)
-    binding.pry
+    incomes = economic_data[:median_household_income].map do |k, v|
+      v if k[0] <= year && k[1] >= year
+    end
+    incomes.compact.reduce(:+) / incomes.length
   end
 
   def truncate(num)

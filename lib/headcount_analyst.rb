@@ -3,6 +3,7 @@ require_relative 'kindergarten_analytics_module'
 require_relative 'statewide_analytics_module'
 include StatewideAnalytics
 include KindergartenAnalytics
+require 'pry'
 
 class HeadcountAnalyst
   attr_reader :dr

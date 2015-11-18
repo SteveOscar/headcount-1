@@ -35,7 +35,9 @@ class EconomicProfileRepository
 
   def create_eps(data_type, economic_data)
     @economic_profile = economic_data.map do |name, economic_profile|
-      EconomicProfile.new({district: name, data_type => economic_profile})
+
+        EconomicProfile.new({district: name, data_type => economic_profile})
+
     end
     economic_profile
   end

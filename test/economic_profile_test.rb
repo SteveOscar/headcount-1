@@ -35,21 +35,21 @@ class EconomicProfileTest < Minitest::Test
     assert_equal Hash, ep.economic_data.class
   end
 
-  def test_median_household_income_in_year_method
-    answer = example.median_household_income_in_year(2007)
-    assert_equal 51721.8, answer
+  def test_estimated_median_household_income_in_year_method
+    answer = example.estimated_median_household_income_in_year(2007)
+    assert_equal 86203.0, answer
   end
 
-  def test_median_household_income_in_year_method_with_different_object
+  def test_estimated_median_household_income_in_year_method_with_different_object
     example = epr.find_by_name("BOULDER VALLEY RE 2")
-    answer = example.median_household_income_in_year(2007)
-    assert_equal 39487.6, answer
+    answer = example.estimated_median_household_income_in_year(2007)
+    assert_equal 65812.666, answer
   end
 
-  def test_median_household_income_raises_unknown_data_error
+  def test_estimated_median_household_income_raises_unknown_data_error
     example = epr.find_by_name("BOULDER VALLEY RE 2")
     assert_raises UnknownDataError do
-      example.median_household_income_in_year(2004)
+      example.estimated_median_household_income_in_year(2004)
     end
   end
 

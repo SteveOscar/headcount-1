@@ -20,7 +20,7 @@ class StatewideTestTest < Minitest::Test
     @sw = StatewideTest.new(data)
     @swtr = StatewideTestRepository.new
     @swtr.load_data(:statewide_testing => {
-    :third_grade => "./data/3rd grade students scoring proficient or above on the CSAP_TCAP.csv", :eigth_grade => "./data/8th grade students scoring proficient or above on the CSAP_TCAP.csv",
+    :third_grade => "./data/3rd grade students scoring proficient or above on the CSAP_TCAP.csv", :eighth_grade => "./data/8th grade students scoring proficient or above on the CSAP_TCAP.csv",
     :math => "./test/fixtures/sample_proficiency_CSAP_.csv", :reading => "./test/fixtures/sample_proficiency_reading.csv", :writing => "./test/fixtures/sample_proficiency_writing.csv"})
     @found = @swtr.find_by_name("COLORADO")
   end

@@ -34,7 +34,7 @@ class StatewideTest
     if grade == 3
       test_data[:third_grade]
     else
-      test_data[:eigth_grade]
+      test_data[:eighth_grade]
     end
   end
 
@@ -51,7 +51,7 @@ class StatewideTest
     raise UnknownDataError.new unless [:math, :reading, :writing].include?(subject)
     raise UnknownDataError.new unless (2008..2014).include?(year)
     raise UnknownDataError.new unless grade == 3 || grade == 8
-    grade == 3 ? grade = :third_grade : grade = :eigth_grade
+    grade == 3 ? grade = :third_grade : grade = :eighth_grade
     format_profeiciency_result(subject, grade, year)
   end
 

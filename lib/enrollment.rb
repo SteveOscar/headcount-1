@@ -14,7 +14,7 @@ class Enrollment
   end
 
   def kindergarten_participation_by_year
-    enrollment_data
+    enrollment_data.values[0]
   end
 
   def kindergarten_participation_in_year(year)

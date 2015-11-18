@@ -17,7 +17,7 @@ class HeadcountAnalystTest < Minitest::Test
                     },
                     :statewide_testing => {
                       :third_grade => "./data/3rd grade students scoring proficient or above on the CSAP_TCAP.csv",
-                      :eigth_grade => "./data/8th grade students scoring proficient or above on the CSAP_TCAP.csv",
+                      :eighth_grade => "./data/8th grade students scoring proficient or above on the CSAP_TCAP.csv",
                       :math => "./data/Average proficiency on the CSAP_TCAP by race_ethnicity_ Math.csv",
                       :reading => "./data/Average proficiency on the CSAP_TCAP by race_ethnicity_ Reading.csv",
                       :writing => "./data/Average proficiency on the CSAP_TCAP by race_ethnicity_ Writing.csv"
@@ -103,7 +103,7 @@ class HeadcountAnalystTest < Minitest::Test
     result1 = ha.format_grade(3)
     result2 = ha.format_grade(8)
     assert_equal :third_grade, result1
-    assert_equal :eigth_grade, result2
+    assert_equal :eighth_grade, result2
   end
 
   def test_format_top_argument_to_proper_format
@@ -157,7 +157,7 @@ class HeadcountAnalystTest < Minitest::Test
   end
 
   def test_weighting_method_can_pass_information_to_district_change_method
-    answer = district_change(:eigth_grade, :math, "ACADEMY 20", {:math => 0.5, :reading => 0.5, :writing => 0.0})
+    answer = district_change(:eighth_grade, :math, "ACADEMY 20", {:math => 0.5, :reading => 0.5, :writing => 0.0})
     assert_equal 0.03746666666666667, answer
   end
 

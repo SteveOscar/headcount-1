@@ -24,9 +24,9 @@ module KindergartenAnalytics
       district_rate_shows_correlation?(rate)
     end
 
-    def kindergarten_participation_correlates_with_high_school_graduation(hash) ######changed colorado to statewide, update tests
+    def kindergarten_participation_correlates_with_high_school_graduation(hash)
       if hash == {:for => "STATEWIDE"}
-        statewide_kindergarten_rates_show_correlation?
+        !statewide_kindergarten_rates_show_correlation?
       elsif hash.keys == [:for]
         district_kindergarten_participation_correlated_with_high_school_graduation?(hash[:for])
       else

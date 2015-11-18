@@ -1,9 +1,8 @@
-
 module StatewideAnalytics
 
   def format_grade(argument)
     argument = :third_grade if argument == 3
-    argument = :eigth_grade if argument == 8
+    argument = :eighth_grade if argument == 8
     argument
   end
 

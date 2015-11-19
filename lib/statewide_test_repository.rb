@@ -29,7 +29,6 @@ class StatewideTestRepository
     @statewide_test = hash.map do |name, statewide_testing|
       StatewideTest.new({district: name, grade => statewide_testing})
     end
-    statewide_test
   end
 
   def append_statewide_testing(grade, hash)

@@ -21,13 +21,13 @@ class EconomicProfileTest < Minitest::Test
   end
 
   def test_can_instantiate_district
-    ep = EconomicProfile.new({name: "ACADEMY 20"})
-    assert_equal "ACADEMY 20", ep.name
+    ep = EconomicProfile.new({district: "ACADEMY 20"})
+    assert_equal "ACADEMY 20", ep.district
   end
 
   def test_economic_profile_object_has_name
-    ep = EconomicProfile.new({name: "ACADEMY 20"})
-    assert_equal "ACADEMY 20", ep.name
+    ep = EconomicProfile.new({disrict: "ACADEMY 20"})
+    assert_equal "ACADEMY 20", ep.district
   end
 
   def test_it_has_data

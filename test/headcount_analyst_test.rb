@@ -17,7 +17,7 @@ class HeadcountAnalystTest < Minitest::Test
                     },
                     :statewide_testing => {
                       :third_grade => "./data/3rd grade students scoring proficient or above on the CSAP_TCAP.csv",
-                      :eigth_grade => "./data/8th grade students scoring proficient or above on the CSAP_TCAP.csv",
+                      :eighth_grade => "./data/8th grade students scoring proficient or above on the CSAP_TCAP.csv",
                       :math => "./data/Average proficiency on the CSAP_TCAP by race_ethnicity_ Math.csv",
                       :reading => "./data/Average proficiency on the CSAP_TCAP by race_ethnicity_ Reading.csv",
                       :writing => "./data/Average proficiency on the CSAP_TCAP by race_ethnicity_ Writing.csv"
@@ -81,34 +81,48 @@ class HeadcountAnalystTest < Minitest::Test
 
   def test_district_change
     answer = ha.district_change(:third_grade, :math, "ACADEMY 20")
-    assert_equal -0.004, answer
+    assert_equal -0.0037499999999999942, answer
   end
 
   def test_district_change_results_for_all_districts
     result = ha.top_statewide_test_year_over_year_growth(grade: 3, subject: :math)
-    assert_equal ["SPRINGFIELD RE-4", 0.149], result
+    assert_equal ["WILEY RE-13 JT", 0.3], result
   end
 
   def test_district_change_results_for_all_districts_top_3
     result = ha.top_statewide_test_year_over_year_growth(grade: 3, top: 3, subject: :math)
     assert_equal 3, result.size
-    assert_equal [["SPRINGFIELD RE-4", 0.149], ["WESTMINSTER 50", 0.1], ["CENTENNIAL R-1", 0.088]], result
+    assert_equal [["WILEY RE-13 JT", 0.3], ["SANGRE DE CRISTO RE-22J", 0.071], ["COTOPAXI RE-3", 0.07]], result
   end
 
   def test_can_get_districts_list_with_averaged_growth_per_subject
     result = ha.top_statewide_test_year_over_year_growth(grade: 3)
   end
 
-  def test_format_argument_to_proper_format_for_grade
-    result1 = ha.format_grade_argument(3)
-    result2 = ha.format_grade_argument(8)
+  def test_format_grade_argument_to_proper_format
+    result1 = ha.format_grade(3)
+    result2 = ha.format_grade(8)
     assert_equal :third_grade, result1
-    assert_equal :eigth_grade, result2
+    assert_equal :eighth_grade, result2
+  end
+
+  def test_format_top_argument_to_proper_format
+    result1 = ha.format_top(grade: 8, top: 3)
+    result2 = ha.format_top(grade: 8)
+    assert_equal 3, result1
+    assert_equal 1, result2
+  end
+
+  def test_format_subject_argument_to_proper_format
+    result1 = ha.format_subject(subject: :math)
+    result2 = ha.format_subject(subject: :reading)
+    assert_equal [:math], result1
+    assert_equal [:reading], result2
   end
 
   def test_formatted_arguments_work_in_top_statewide_method
     result = ha.top_statewide_test_year_over_year_growth(grade: 3, subject: :math)
-    assert_equal ["SPRINGFIELD RE-4", 0.149], result
+    assert_equal ["WILEY RE-13 JT", 0.3], result
   end
 
   def test_statewide_test_year_over_year_top_3_integration
@@ -121,8 +135,12 @@ class HeadcountAnalystTest < Minitest::Test
     e = assert_raises InsufficientInformationError do
       ha.top_statewide_test_year_over_year_growth(top: 3, subject: :math)
     end
-
     assert_equal "A grade must be provided to answer this question", e.message
+  end
+
+  def test_statewide_test_year_over_year_top_3_integration
+    result = ha.top_statewide_test_year_over_year_growth(grade: 3)
+    assert_equal ["SANGRE DE CRISTO RE-22J", 0.071], result
   end
 
   def test_raises_error_if_unknown_grade_is_provided
@@ -139,23 +157,23 @@ class HeadcountAnalystTest < Minitest::Test
   end
 
   def test_weighting_method_can_pass_information_to_district_change_method
-    answer = district_change(:eigth_grade, :math, "ACADEMY 20", {:math => 0.5, :reading => 0.5, :writing => 0.0})
-
-    assert_equal 0.035, answer
+    answer = district_change(:eighth_grade, :math, "ACADEMY 20", {:math => 0.5, :reading => 0.5, :writing => 0.0})
+    assert_equal 0.03746666666666667, answer
   end
 
   def test_subject_weighting_integration
     result = ha.top_statewide_test_year_over_year_growth(grade: 8, :weighting => {:math => 0.5, :reading => 0.5, :writing => 0.0})
-    assert_equal ["PLATEAU RE-5", 0.101], result
+    assert_equal ["OURAY R-1", 0.153], result
   end
 
   def test_produces_different_results_depending_on_weighting
-    result_weighted = ha.top_statewide_test_year_over_year_growth(grade: 8, :weighting => {:math => 0.5, :reading => 0.5, :writing => 0.0})
+    result_weighted = ha.top_statewide_test_year_over_year_growth(grade: 8, :weighting => {:math => 0.0, :reading => 0.5, :writing => 0.5})
     result_non_weighted = ha.top_statewide_test_year_over_year_growth(grade: 8)
-    result_heavy_weighting = ha.top_statewide_test_year_over_year_growth(grade: 8, :weighting => {:math => 0.05, :reading => 0.05, :writing => 0.9})
-    assert_equal ["PLATEAU RE-5", 0.101], result_weighted
-    assert_equal ["PLATEAU RE-5", 0.092], result_non_weighted
-    assert_equal ["ASPEN 1", 0.113], result_heavy_weighting
+    result_heavy_weighting = ha.top_statewide_test_year_over_year_growth(grade: 8, :weighting => {:math => 0.1, :reading => 0.9, :writing => 0.0})
+
+    assert_equal ["DE BEQUE 49JT", 0.085], result_weighted
+    assert_equal ["OURAY R-1", 0.11], result_non_weighted
+    assert_equal ["COTOPAXI RE-3", 0.114], result_heavy_weighting
   end
 
 end

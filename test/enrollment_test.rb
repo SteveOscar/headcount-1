@@ -27,12 +27,12 @@ class EnrollmentTest < Minitest::Test
   end
 
   def test_kindergarten_participation_by_year_returns_hash
-    assert_equal "Hash", e.kindergarten_participation_by_year.class.to_s
+    assert_equal Hash, e.kindergarten_participation_by_year.class
   end
 
   def test_kindergarten_participation_by_year_returns_correct_data
     result = e.kindergarten_participation_by_year
-    data = {:kindergarten=>{2010=>0.3915, 2011=>0.35356, 2012=>0.2677}}
+    data = {2010=>0.3915, 2011=>0.35356, 2012=>0.2677}
     assert_equal data, result
   end
 

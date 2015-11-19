@@ -1,13 +1,13 @@
 require 'pry'
 require_relative 'enrollment'
-require_relative 'csv_parser_0'
+require_relative 'csv_parser'
 
 class EnrollmentRepository
   attr_accessor :enrollment, :districts
   attr_reader :parser
 
   def initialize
-    @parser = CSVParser.new
+    @parser = BasicParser.new
   end
 
   def load_data(given_data)
@@ -29,7 +29,6 @@ class EnrollmentRepository
     @enrollment = hash.map do |name, enrollment|
       Enrollment.new({district: name, grade => enrollment})
     end
-    enrollment
   end
 
   def append_enrollment(grade, hash)

@@ -42,6 +42,21 @@ class EnrollmentRepoTest < Minitest::Test
     assert_equal nil, object
   end
 
+  def test_find_by_name_returns_nil_if_given_hash
+    object = er.find_by_name(sample: "data")
+    assert_equal nil, object
+  end
+
+  def test_find_by_name_returns_nil_if_given_float
+    object = er.find_by_name(4.56)
+    assert_equal nil, object
+  end
+
+  def test_swtr_find_by_name_returns_nil_if_given_symbol
+    object = er.find_by_name(:what)
+    assert_equal nil, object
+  end
+
   def test_find_by_name_returns_nil_if_given_integers
     object = er.find_by_name(3728)
     assert_equal nil, object
@@ -73,6 +88,14 @@ class EnrollmentRepoTest < Minitest::Test
     object = er.find_by_name("COLORADO")
     assert_equal 0.74118, object.enrollment_data[:kindergarten][2014]
     assert_equal 0.773, object.enrollment_data[:high_school_graduation][2014]
+  end
+
+  def test_can_append_enrollment_data_to_existing_enrollment_object
+  found = er.find_by_name("ACADEMY 20")
+  assert_equal :kindergarten, found.enrollment_data.keys[0]
+  refute_equal :high_school_graduation, found.enrollment_data.keys[1]
+  er.load_data(:enrollment => {:high_school_graduation => "./test/fixtures/sample_hs_graduation_data.csv"})
+  assert_equal :high_school_graduation, found.enrollment_data.keys[1]
   end
 
 end

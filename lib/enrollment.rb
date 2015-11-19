@@ -1,5 +1,3 @@
-require 'pry'
-
 class Enrollment
   attr_reader :district, :enrollment_data, :grade, :name
 
@@ -9,21 +7,12 @@ class Enrollment
     @enrollment_data = convert_enrollment_header(data)
   end
 
-  def convert_enrollment_header(data)
-    if data.keys[1] == :kindergarten_participation
-      h = {:kindergarten => data.values[1]}
-    else
-      h = {data.keys[1] => data.values[1]}
-    end
-    h
-  end
-
   def truncate(num)
     (num * 1000).floor / 1000.0
   end
 
   def kindergarten_participation_by_year
-    enrollment_data
+    enrollment_data.values[0]
   end
 
   def kindergarten_participation_in_year(year)
@@ -44,6 +33,14 @@ class Enrollment
       truncated_data[k] = truncate(v)
     end
     truncated_data
+  end
+
+  def convert_enrollment_header(data)
+    if data.keys[1] == :kindergarten_participation
+      data = {:kindergarten => data.values[1]}
+    else
+      data = {data.keys[1] => data.values[1]}
+    end
   end
 
 end

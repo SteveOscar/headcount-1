@@ -1,8 +1,9 @@
 class Enrollment
-  attr_reader :district, :enrollment_data, :grade
+  attr_reader :district, :enrollment_data, :grade, :name
 
   def initialize(data)
     @district = data.values[0]
+    @name = district
     @enrollment_data = convert_enrollment_header(data)
   end
 

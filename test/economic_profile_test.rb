@@ -101,4 +101,9 @@ class EconomicProfileTest < Minitest::Test
     end
   end
 
+  def test_truncate_works
+    sample = 0.482032
+    assert_equal 0.482, example.truncate(sample)
+  end
+
 end

@@ -27,7 +27,7 @@ class EnrollmentTest < Minitest::Test
   end
 
   def test_kindergarten_participation_by_year_returns_hash
-    assert_equal "Hash", e.kindergarten_participation_by_year.class.to_s
+    assert_equal Hash, e.kindergarten_participation_by_year.class
   end
 
   def test_kindergarten_participation_by_year_returns_correct_data

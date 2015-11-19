@@ -28,6 +28,29 @@ class DistrictRepositoryTest < Minitest::Test
     assert dr
   end
 
+  def test_can_create_district_objects_from_within_district_repository
+    dr.create_district_objects(["GREG", "STEVE"])
+    greg_answer = dr.find_by_name("GREG")
+    steve_answer = dr.find_by_name("STEVE")
+    assert_equal "GREG", greg_answer.name
+    assert_equal "STEVE", steve_answer.name
+  end
+
+  def test_find_by_name_returns_nil_if_given_hash
+    object = dr.find_by_name({"sample" => "data"})
+    assert_equal nil, object
+  end
+
+  def test_find_by_name_returns_nil_if_given_float
+    object = dr.find_by_name(2.34)
+    assert_equal nil, object
+  end
+
+  def test_swtr_find_by_name_returns_nil_if_given_symbol
+    object = dr.find_by_name(:what)
+    assert_equal nil, object
+  end
+
   def test_can_load_data_from_given_file
     assert_equal "COLORADO", dr.districts[0].name
     assert_equal "AGATE 300", dr.districts[4].name

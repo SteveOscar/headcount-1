@@ -2,6 +2,8 @@ require 'minitest'
 require 'minitest/autorun'
 require 'minitest/pride'
 require './lib/csv_parser'
+require './lib/testing_parser'
+require './lib/economic_parser'
 require 'pry'
 
 class ParserTest < Minitest::Test
@@ -9,7 +11,7 @@ class ParserTest < Minitest::Test
 
   def setup
     @csv = CSV.open("./test/fixtures/sample_kindergarten_data.csv", {:headers => true, header_converters: :symbol})
-    @parser = CSVParser.new
+    @parser = BasicParser.new
     @test_parser = TestingParser.new
     @test_path = test_parser.load_data('./test/fixtures/sample_3rd_grade_data.csv')
     @path = parser.load_data('./test/fixtures/sample_kindergarten_data.csv')

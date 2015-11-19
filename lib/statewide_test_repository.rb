@@ -1,6 +1,6 @@
 require 'pry'
 require_relative 'statewide_test'
-require_relative 'csv_parser'
+require_relative 'testing_parser'
 
 class StatewideTestRepository
   attr_reader :parser

@@ -14,6 +14,10 @@ class EconomicProfile
     incomes = economic_data[:median_household_income].map do |k, v|
       v if k[0] <= year && k[1] >= year
     end
+    divide_results(incomes)
+  end
+
+  def divide_results(incomes)
     truncate(incomes.compact.reduce(:+) / incomes.compact.length)
   end
 

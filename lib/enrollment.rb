@@ -1,11 +1,8 @@
-require 'pry'
-
 class Enrollment
-  attr_reader :district, :enrollment_data, :grade, :name
+  attr_reader :district, :enrollment_data, :grade
 
   def initialize(data)
     @district = data.values[0]
-    @name = district
     @enrollment_data = convert_enrollment_header(data)
   end
 
@@ -39,11 +36,10 @@ class Enrollment
 
   def convert_enrollment_header(data)
     if data.keys[1] == :kindergarten_participation
-      h = {:kindergarten => data.values[1]}
+      data = {:kindergarten => data.values[1]}
     else
-      h = {data.keys[1] => data.values[1]}
+      data = {data.keys[1] => data.values[1]}
     end
-    h
   end
 
 end

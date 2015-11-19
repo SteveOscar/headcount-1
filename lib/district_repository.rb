@@ -1,6 +1,8 @@
 require 'pry'
 require_relative 'district'
 require_relative 'csv_parser'
+require_relative 'testing_parser'
+require_relative 'economic_parser'
 require_relative 'enrollment_repository'
 require_relative 'statewide_test_repository'
 require_relative 'economic_profile_repository'
@@ -12,7 +14,7 @@ class DistrictRepository
     @swtr = StatewideTestRepository.new
     @er = EnrollmentRepository.new
     @epr = EconomicProfileRepository.new
-    @parser = CSVParser.new
+    @parser = BasicParser.new
     @test_parser = TestingParser.new
     @economic_parser = EconomicParser.new
   end

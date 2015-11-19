@@ -7,7 +7,7 @@ class EnrollmentRepository
   attr_reader :parser
 
   def initialize
-    @parser = CSVParser.new
+    @parser = BasicParser.new
   end
 
   def load_data(given_data)

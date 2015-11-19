@@ -23,21 +23,27 @@ class EconomicProfileRepository
 
   def check_for_existing_objects(data_type)
     if economic_profile.nil?
-      create_eps(data_type, ec_parser.get_lunch_data) if data_type.to_s.include?("lunch")
-      create_eps(data_type, ec_parser.get_income_data) if data_type.to_s.include?("income")
-      create_eps(data_type, parser.get_enrollment) unless data_type.to_s.include?("lunch") || data_type.to_s.include?("income")
+      determine_type_and_create_economic_profile(data_type)
     else
-      append_eps(data_type, ec_parser.get_lunch_data) if data_type.to_s.include?("lunch")
-      create_eps(data_type, ec_parser.get_income_data) if data_type.to_s.include?("income")
-      append_eps(data_type, parser.get_enrollment) unless data_type.to_s.include?("lunch") || data_type.to_s.include?("income")
+      append_data_to_corrent_type(data_type)
     end
+  end
+
+  def determine_type_and_create_economic_profile(data_type)
+    create_eps(data_type, ec_parser.get_lunch_data) if data_type.to_s.include?("lunch")
+    create_eps(data_type, ec_parser.get_income_data) if data_type.to_s.include?("income")
+    create_eps(data_type, parser.get_enrollment) unless data_type.to_s.include?("lunch") || data_type.to_s.include?("income")
+  end
+
+  def append_data_to_corrent_type(data_type)
+    append_eps(data_type, ec_parser.get_lunch_data) if data_type.to_s.include?("lunch")
+    create_eps(data_type, ec_parser.get_income_data) if data_type.to_s.include?("income")
+    append_eps(data_type, parser.get_enrollment) unless data_type.to_s.include?("lunch") || data_type.to_s.include?("income")
   end
 
   def create_eps(data_type, economic_data)
     @economic_profile = economic_data.map do |name, economic_profile|
-
         EconomicProfile.new({district: name, data_type => economic_profile})
-
     end
     economic_profile
   end

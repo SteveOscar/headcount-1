@@ -29,17 +29,29 @@ class DistrictRepository
 
   def load_by_type(given_data, key)
     if key == :enrollment
-      er.load_data(given_data)
-      link_district_to_enrollment
+      load_enrollment_data(given_data)
     elsif key == :statewide_testing
-      test_parser.load_data(given_data.values.first.values[0])
-      swtr.load_data(given_data)
-      link_district_to_statewide_testing
+      load_statewide_testing_data(given_data)
     else
-      economic_parser.load_data(given_data.values.first.values[0])
-      epr.load_data(given_data)
-      link_district_to_economic_profile
+      load_economic_data(given_data)
     end
+  end
+
+  def load_enrollment_data(given_data)
+    er.load_data(given_data)
+    link_district_to_enrollment
+  end
+
+  def load_statewide_testing_data(given_data)
+    test_parser.load_data(given_data.values.first.values[0])
+    swtr.load_data(given_data)
+    link_district_to_statewide_testing
+  end
+
+  def load_economic_data(given_data)
+    economic_parser.load_data(given_data.values.first.values[0])
+    epr.load_data(given_data)
+    link_district_to_economic_profile
   end
 
   def link_district_to_enrollment

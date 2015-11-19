@@ -66,14 +66,28 @@ class EconomicProfileTest < Minitest::Test
     assert_equal 0.142, answer2
   end
 
-  def test_free_or_reduced_price_lunch_percentage_in_year
+  def test_free_or_reduced_price_lunch_percentage_in_year_returns_correct_value
     answer = example.free_or_reduced_price_lunch_percentage_in_year(2010)
     assert_equal 0.113, answer
   end
 
-  def test_free_or_reduced_price_lunch_number_in_year
+  def test_free_or_reduced_price_lunch_percentage_raises_unknown_data_error
+    example = epr.find_by_name("BOULDER VALLEY RE 2")
+    assert_raises UnknownDataError do
+      example.free_or_reduced_price_lunch_percentage_in_year(1995)
+    end
+  end
+
+  def test_free_or_reduced_price_lunch_number_in_year_returns_correct_value
     answer = example.free_or_reduced_price_lunch_number_in_year(2010)
     assert_equal 2601, answer
+  end
+
+  def test_free_or_reduced_price_lunch_number_raises_unknown_data_error
+    example = epr.find_by_name("BOULDER VALLEY RE 2")
+    assert_raises UnknownDataError do
+      example.free_or_reduced_price_lunch_number_in_year(1995)
+    end
   end
 
   def test_title_i_in_year

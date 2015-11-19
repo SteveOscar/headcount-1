@@ -29,7 +29,6 @@ class EnrollmentRepository
     @enrollment = hash.map do |name, enrollment|
       Enrollment.new({district: name, grade => enrollment})
     end
-    enrollment
   end
 
   def append_enrollment(grade, hash)

@@ -20,11 +20,6 @@ module StatewideAnalytics
     arguments[:weighting] if arguments.keys.include?(:weighting)
   end
 
-  def raise_error_for_bad_arguments(arguments)
-    raise InsufficientInformationError.new, 'A grade must be provided to answer this question' unless arguments.has_key?(:grade)
-    raise UnknownDataError.new, "#{arguments[:grade]} is not a known grade" unless arguments[:grade] == 3 || arguments[:grade] == 8
-  end
-
   def top_statewide_test_year_over_year_growth(arguments)
     raise_error_for_bad_arguments(arguments)
     weighting = get_weighting_hash(arguments)
@@ -94,7 +89,9 @@ module StatewideAnalytics
     top_district
   end
 
-  def truncate(num)
-    (num * 1000).floor / 1000.0
+  def raise_error_for_bad_arguments(arguments)
+    raise InsufficientInformationError.new, 'A grade must be provided to answer this question' unless arguments.has_key?(:grade)
+    raise UnknownDataError.new, "#{arguments[:grade]} is not a known grade" unless arguments[:grade] == 3 || arguments[:grade] == 8
   end
+
 end

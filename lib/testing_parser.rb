@@ -1,3 +1,5 @@
+require 'csv'
+
 class TestingParser
   attr_accessor :csv_data
 

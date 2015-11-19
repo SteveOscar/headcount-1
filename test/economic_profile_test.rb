@@ -66,6 +66,12 @@ class EconomicProfileTest < Minitest::Test
     assert_equal 0.142, answer2
   end
 
+  def test_children_in_poverty_in_year_with_no_data_returns_error ##added
+    assert_raises UnknownDataError do
+      example.children_in_poverty_in_year(1992)
+    end
+  end
+
   def test_free_or_reduced_price_lunch_percentage_in_year_returns_correct_value
     answer = example.free_or_reduced_price_lunch_percentage_in_year(2010)
     assert_equal 0.113, answer
@@ -104,6 +110,25 @@ class EconomicProfileTest < Minitest::Test
   def test_truncate_works
     sample = 0.482032
     assert_equal 0.482, example.truncate(sample)
+  end
+
+  def test_error_check_correctly_checks_error
+    assert_raises UnknownDataError do
+      example.error_check(:free_or_reduced_price_lunch, 1987)
+    end
+  end
+
+  def test_yr_check_correctly_checks_errors
+    refute example.yr_check(:free_or_reduced_price_lunch, 1987)
+  end
+
+  def test_truncate_correctly_truncates_numbers
+    assert_equal 1234.567, example.truncate(1234.56789)
+  end
+
+  def test_data_input_source_correctly_identifies_source
+    answer = {:median_household_income=>{[2005, 2009]=>56222.0, [2006, 2010]=>56456.0, [2008, 2012]=>58244.0, [2007, 2011]=>57685.0, [2009, 2013]=>58433.0}}
+    assert_equal answer, example.data_input_source({:district=>"COLORADO", :median_household_income=>{[2005, 2009]=>56222.0, [2006, 2010]=>56456.0, [2008, 2012]=>58244.0, [2007, 2011]=>57685.0, [2009, 2013]=>58433.0}})
   end
 
 end

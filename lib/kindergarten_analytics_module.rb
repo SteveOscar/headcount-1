@@ -8,6 +8,12 @@ module KindergartenAnalytics
       answers
     end
 
+    def kindergarten_participation_rate_variation(district, compared_to)
+      initial = dr.find_by_name(district)
+      comparison = dr.find_by_name(compared_to[:against])
+      find_variation(initial, comparison, :kindergarten)
+    end
+
     def kindergarten_participation_against_high_school_graduation(district)
       kindergarten_variation = kindergarten_participation_rate_variation(district, :against => "COLORADO")
       initial = dr.find_by_name(district)
@@ -47,7 +53,5 @@ module KindergartenAnalytics
       rate >= 0.7
     end
 
-    def truncate(num)
-      (num * 1000).floor / 1000.0
-    end
+
 end

@@ -1,7 +1,7 @@
 require 'minitest'
 require 'minitest/autorun'
 require 'minitest/pride'
-require './lib/csv_parser_0'
+require './lib/csv_parser'
 require 'pry'
 
 class ParserTest < Minitest::Test

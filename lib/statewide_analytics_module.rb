@@ -65,6 +65,10 @@ module StatewideAnalytics
     years = dr.find_by_name(district).statewide_test.test_data[grade]
     data = Hash[ years.keys.zip(years.map { |year| (year[1][subject]).to_f })]
     data.delete_if{|_,v| v == 0.0}
+    calculate_change_over_time(data, weighting, subject)
+  end
+
+  def calculate_change_over_time(data, weighting, subject)
     if data.values.length > 1
       subject_average = (data.values.last - data.values[0]) / (data.keys.last - data.keys[0])
     else
@@ -73,17 +77,6 @@ module StatewideAnalytics
     subject_average = (subject_average * (weighting[subject] * 10)) unless weighting.nil?
     subject_average
   end
-
-  # def get_differences_between_years(array) ## Our more accurate method that got dumbed down by the spec :(
-  #   i = 1
-  #   differences = []
-  #   loop do
-  #     differences << (array[i] - array[i-1])
-  #     i += 1
-  #     break if i == array.size
-  #   end
-  #   differences
-  # end
 
   def calculate_final_change(growth, top, subjects, weighting=nil)
     answer = find_top_district(growth, top)

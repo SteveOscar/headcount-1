@@ -1,6 +1,6 @@
 require 'pry'
 require_relative 'economic_profile'
-require_relative 'csv_parser_0'
+require_relative 'csv_parser'
 
 class EconomicProfileRepository
   attr_reader :parser, :test_parser, :ec_parser
